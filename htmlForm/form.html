@@ -7,21 +7,24 @@
     <style>
         body {
             display: flex;
+            margin: 0;
+            padding: 0;
             justify-content: center;
             align-items: center;
             font-family: Arial, sans-serif;
         }
-        .top {
+        .container {
+            position: fixed;
+            left: 50%;
+            transform: translate(-50%);
+            width: 950px;
+            margin: 0 auto;
+        }
+        .header{
             position: absolute;
             top: 10px;
             left: 10px;
-            margin-bottom: 20px;
             font-size: 12px;
-        }
-        .mid {
-            width: 800px;
-            padding: 20px;
-            align-items: center;
         }
         .title {
             margin: 50px 0 20px 0;
@@ -31,46 +34,37 @@
         }
         .styled-table {
             border-collapse: collapse;
-            margin: 10px auto;
+            margin: 20px auto;
             font-size: 14px;
-        
         }
         .styled-table td {
             border: 1px solid #ddd;
-            width: 100px;
+            width: 150px;
             height: 20px;
-            padding: 8px;
+            padding: 10px;
         }
         .section {
             background-color: #f2f2f2;
             text-align: center;
             font-weight: bold;
         }
-        .other {
-            border-collapse: collapse;
-            margin: 10px auto;
-        }
-        .other td{
-            border: 1px solid #ddd;
-            width: 100px;
-            height: 20px;
-            padding: 8px;
-            font-size: 10px;
-        }
-        .otherInfo {
-            background-color: #f2f2f2;            
-            text-align: center;
+        .bottom-table {
+            margin: 20px auto;
             font-weight: bold;
+            font-size: 14px;
+        }
+        .bottom-table td {
+            width: 150px;
+            height: 20px;
+            padding: 10px;
         }
     </style>
 </head>
-<body>
-    <top class="top">
-        <header>
+<body class="container">
+    <main>
+        <header class="header">
             ■ 전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법 시행령 [별지 제8호서식]
         </header>
-    </top>
-    <mid class="container">
         <h1 class="title">
             사기이용계좌 · 피해의심거래계좌 정보확인 통지서
         </h1>
@@ -80,18 +74,18 @@
                 <td class="section" colspan="1" rowspan="2">
                     피해금<br><span style="font-size: 9px;">(전기통신금융사기피해금액으로추정되는 금액)</span><br>이 이전된 계좌
                 </td>
-                <td colspan="1" rowspan="1">금융회사</td>
-                <td colspan="2" rowspan="1"></td>
-                <td colspan="1" rowspan="1">계좌번호</td>
-                <td colspan="2" rowspan="1"></td>
+                <td class="section" colspan="1" rowspan="1">금융회사</td>
+                <td colspan="2" rowspan="1">{section_1_bank}</td>
+                <td class="section" colspan="1" rowspan="1">계좌번호</td>
+                <td colspan="2" rowspan="1">{section_1_acount}</td>
             </tr>
             <tr>
-                <td colspan="1" rowspan="1">명의인</td>
-                <td colspan="1" rowspan="1"></td>
-                <td colspan="1" rowspan="1">날짜</td>
-                <td colspan="1" rowspan="1"></td>
-                <td colspan="1" rowspan="1">금액</td>
-                <td colspan="1" rowspan="1"></td>
+                <td class="section" colspan="1" rowspan="1">명의인</td>
+                <td  colspan="1" rowspan="1">{section_1_name}</td>
+                <td class="section" colspan="1" rowspan="1">날짜</td>
+                <td colspan="1" rowspan="1">{section_1_time}</td>
+                <td class="section" colspan="1" rowspan="1">금액</td>
+                <td colspan="1" rowspan="1">{section_1_cost}</td>
             </tr>
             <tr style="height: 20px;"></tr>
             <!--입금 모계좌-->
@@ -99,18 +93,18 @@
                 <td class="section" colspan="1" rowspan="2">
                     피해금<br><span style="font-size: 9px;">(전기통신금융사기피해금액으로추정되는 금액)</span><br>이 입금된 전자금융업자 계좌
                 </td>
-                <td colspan="1" rowspan="1">금융회사</td>
-                <td colspan="2" rowspan="1"></td>
-                <td colspan="1" rowspan="1">계좌번호</td>
-                <td colspan="2" rowspan="1"></td>
+                <td class="section" colspan="1" rowspan="1">금융회사</td>
+                <td colspan="2" rowspan="1">{section_2_bank}</td>
+                <td class="section" colspan="1" rowspan="1">계좌번호</td>
+                <td colspan="2" rowspan="1">{section_2_acount}</td>
             </tr>
             <tr>
-                <td colspan="1" rowspan="1">명의인</td>
+                <td class="section" colspan="1" rowspan="1">명의인</td>
                 <td colspan="1" rowspan="1">헥토파이낸셜</td>
-                <td colspan="1" rowspan="1">날짜</td>
-                <td colspan="1" rowspan="1"></td>
-                <td colspan="1" rowspan="1">금액</td>
-                <td colspan="1" rowspan="1"></td>
+                <td class="section" colspan="1" rowspan="1">날짜</td>
+                <td colspan="1" rowspan="1">{section_2_time}</td>
+                <td class="section" colspan="1" rowspan="1">금액</td>
+                <td colspan="1" rowspan="1">{section_2_cost}</td>
             </tr>
             <tr style="height: 20px;"></tr>
             <!--정산 모계좌-->
@@ -118,37 +112,60 @@
                 <td class="section" colspan="1" rowspan="2">
                     피해금<br><span style="font-size: 9px;">(전기통신금융사기피해금액으로추정되는 금액)</span><br>이 출금된 전자금융업자 계좌
                 </td>
-                <td colspan="1" rowspan="1">금융회사</td>
-                <td colspan="2" rowspan="1"></td>
-                <td colspan="1" rowspan="1">계좌번호</td>
-                <td colspan="2" rowspan="1"></td>
+                <td class="section" colspan="1" rowspan="1">금융회사</td>
+                <td  colspan="2" rowspan="1">{section_3_bank}</td>
+                <td class="section" colspan="1" rowspan="1">계좌번호</td>
+                <td colspan="2" rowspan="1">{section_3_acount}</td>
             </tr>
             <tr>
-                <td colspan="1" rowspan="1">명의인</td>
-                <td colspan="1" rowspan="1">헥토파이낸셜</td>
-                <td colspan="1" rowspan="1">날짜</td>
-                <td colspan="1" rowspan="1"></td>
-                <td colspan="1" rowspan="1">금액</td>
-                <td colspan="1" rowspan="1"></td>
+                <td class="section" colspan="1" rowspan="1">명의인</td>
+                <td colspan="1" rowspan="1">{section_3_name}</td>
+                <td class="section" colspan="1" rowspan="1">날짜</td>
+                <td colspan="1" rowspan="1">{section_3_time}</td>
+                <td class="section" colspan="1" rowspan="1">금액</td>
+                <td colspan="1" rowspan="1">{section_3_cost}</td>
             </tr>
             <tr style="height: 20px;"></tr>
             <tr>
-                <td colspan="9" rowspan="1">
-                    asdad<br>asdas
+                <td style="border-color: white; font-size: 10px;" colspan="9" rowspan="1">
+                    ※ 피해(추정)금이 재이전되지 않은 경우, 피해(추정)금이 선불충전금 형태로 남아있는 경우, 피해(추정)금이 상품권 구매 등에 바로 사용된 경우 등 특이사항(구체적으로 적습니다)
+                </td>
+            </tr>
+            <tr>
+                <td style="border-color: white; font-size: 14px;" colspan="9" rowspan="1">
+                    {otherInfomation}
                 </td>
             </tr>
         </table>
-        <table class="other">
+        <table class="styled-table">
             <tr>
-                <td class="otherInfo" colspan="1" rowspan="1">그 밖의 사항</td>
-                <td class="otherInfo" colspan="1" rowspan="1">담당자</td>
+                <td class="section" colspan="1" rowspan="1">그 밖의 사항</td>
+                <td class="section" colspan="1" rowspan="1">담당자</td>
                 <td style="font-size: 14px;" colspan="1" rowspan="1">정용민</td>
-                <td class="otherInfo" colspan="1" rowspan="1">직위</td>
+                <td class="section" colspan="1" rowspan="1">직위</td>
                 <td style="font-size: 14px;" colspan="1" rowspan="1">책임</td>
-                <td class="otherInfo" colspan="1" rowspan="1">연락처</td>
+                <td class="section" colspan="1" rowspan="1">연락처</td>
                 <td style="font-size: 14px;" colspan="1" rowspan="1">02-558-0250</td>
             </tr>
+            <tr>
+                <td style="border-color: white; font-size: 10px;" colspan="9" rowspan="1">
+                    「전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법」 제15조제3항 및 같은 법 시행령 제11조의3제3항에 따라 위와 같은 정보를 확인하여 통지합니다.
+                </td>
+            </tr>
         </table>
-    </mid>
+        <table class="bottom-table">
+            <tr>
+                <td colspan="2" rowspan="2">{sendBank}</td>
+                <td colspan="1" rowspan="2">귀하</td>
+                <td colspan="5" rowspan="1"></td>
+                <td colspan="2" rowspan="1">{today}</td>
+            </tr>
+            <tr>
+                <td colspan="5" rowspan="1"></td>
+                <td colspan="1" rowspan="1">주식회사 헥토파이낸셜</td>
+                <td colspan="1" rowspan="1">이미지</td>
+            </tr>
+        </table>
+    </main>
 </body>
 </html>
