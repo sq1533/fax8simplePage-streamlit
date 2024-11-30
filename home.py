@@ -1,23 +1,16 @@
 import streamlit as st
 from jinja2 import Template
 import pandas as pd
-import os
-from playwright.sync_api import sync_playwright
+import requests
+from selenium import webdriver
 #html to image
-def toImage(htmlPath,imagePath):
-    with sync_playwright() as p:
-        # Chromium 브라우저 실행
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(viewport={"width":850, "height":1200})
-        page = context.new_page()
-        #절대 경로 변환, 'file://' 프로토콜
-        absolute_path = os.path.abspath(htmlPath)
-        file_url = f"file://{absolute_path}"
-        # HTML 파일 로드
-        page.goto(file_url)
-        # 페이지 스크린샷 저장
-        page.screenshot(path=imagePath,full_page=True)
-        browser.close()
+def toImage(inputURL,outputIMG):
+    driver = webdriver.Chrome()
+    driver.set_window_size(850,1200)
+    driver.get(f"file://{inputURL}")
+    # 스크린샷 저장
+    driver.save_screenshot(outputIMG)
+    driver.quit()
 htmlForm = "C:\\Users\\USER\\ve_1\\samplePage\\htmlForm\\{servise}.html"
 #formating 작업
 def formating(form,sec_1_bank,sec_1_acount,sec_1_name,sec_1_time,sec_1_cost,sec_2_bank,sec_2_acount,sec_2_time,sec_3_bank,sec_3_acount,tradeNo,orderNo,antherInfo,send):
@@ -96,28 +89,31 @@ with option1:
         sendbankIndex,sendbank,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
         sendbankIndex.write("발송은행 : ")
         sendbank = sendbank.text_input(label="발송은행",value=None,label_visibility="collapsed")
-        empty,savebtn = st.columns(spec=[4,1],gap="small",vertical_alignment="center")
-        with open(htmlForm.format(servise="선불"),"r",encoding="UTF-8") as html:
-            html = html.read()
-        results = formating(form=html,
-                            sec_1_bank=bank1,
-                            sec_1_acount=acount1,
-                            sec_1_name=name1,
-                            sec_1_time=f"{day1}<br>{time1}",
-                            sec_1_cost=cost1,
-                            sec_2_bank=bank2,
-                            sec_2_acount=acount2,
-                            sec_2_time=f"{day2}<br>{time2}",
-                            sec_3_bank="fixed",
-                            sec_3_acount="fixed",
-                            tradeNo=tradeNo,
-                            orderNo=orderNo,
-                            antherInfo=antherInfo,
-                            send=sendbank
-                            )
+        empty,savebtn = st.columns(spec=[5,1],gap="small",vertical_alignment="center")
         if savebtn.button("저장"):
-            htmlOutput = f"C:\\Users\\USER\\ve_1\\samplePage\\fax8html\\{day2}_{sendbank}_{cost1}.html"
-            imgOutput = f"C:\\Users\\USER\\ve_1\\samplePage\\fax8image\\{day2}_{sendbank}_{cost1}.png"
+            with open(htmlForm.format(servise="선불"),"r",encoding="UTF-8") as html:
+                html = html.read()
+            results = formating(form=html,
+                                sec_1_bank=bank1,
+                                sec_1_acount=acount1,
+                                sec_1_name=name1,
+                                sec_1_time=f"{day1}<br>{time1}",
+                                sec_1_cost=cost1,
+                                sec_2_bank=bank2,
+                                sec_2_acount=acount2,
+                                sec_2_time=f"{day2}<br>{time2}",
+                                sec_3_bank="fixed",
+                                sec_3_acount="fixed",
+                                tradeNo=tradeNo,
+                                orderNo=orderNo,
+                                antherInfo=antherInfo,
+                                send=sendbank
+                                )
+            htmlOutput = f"C:\\Users\\USER\\ve_1\\samplePage\\fax8html\\{sendbank}_{cost1}_날짜시간.html"
+            imgOutput = f"C:\\Users\\USER\\ve_1\\samplePage\\fax8image\\{sendbank}_{cost1}_날짜시간.png"
             with open(htmlOutput,"w",encoding="UTF-8") as html:
                 html.write(results)
             toImage(htmlOutput,imgOutput)
+            url = "https://api.telegram.org/bot{API}/sendPhoto"
+            with open(imgOutput,"rb") as image_file:
+                requests.post(url, data={"chat_id":"ID"}, files={"photo": image_file})
