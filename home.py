@@ -1,8 +1,17 @@
 import streamlit as st
 from jinja2 import Template
-import pandas as pd
+import json
 import requests
+from datetime import datetime
 from selenium import webdriver
+#DB정보 호출 및 정제
+with open("C:\\Users\\USER\\ve_1\\DB\\acountInfo.json","r",encoding="UTF-8") as j:
+    ACOUNT = json.load(j)
+with open("C:\\Users\\USER\\ve_1\\samplePage\\htmlForm\\선불.html","r",encoding="UTF-8") as html:
+    html = html.read()
+MID = ACOUNT["가맹점"]
+sec_2 = ACOUNT["입금모계좌"]
+sec_3 = ACOUNT["정산"]
 #html to image
 def toImage(inputURL,outputIMG):
     driver = webdriver.Chrome()
@@ -11,7 +20,6 @@ def toImage(inputURL,outputIMG):
     # 스크린샷 저장
     driver.save_screenshot(outputIMG)
     driver.quit()
-htmlForm = "C:\\Users\\USER\\ve_1\\samplePage\\htmlForm\\{servise}.html"
 #formating 작업
 def formating(form,sec_1_bank,sec_1_acount,sec_1_name,sec_1_time,sec_1_cost,sec_2_bank,sec_2_acount,sec_2_time,sec_3_bank,sec_3_acount,tradeNo,orderNo,antherInfo,send):
     #jinja templete 변경 및 formating
@@ -30,90 +38,100 @@ def formating(form,sec_1_bank,sec_1_acount,sec_1_name,sec_1_time,sec_1_cost,sec_
         orNum = orderNo, #주문번호
         otherInfomation = antherInfo, #특이사항
         sendBank = send, #수신 은행
-        today = "fix" #발신 날짜
+        today = datetime.now().strftime("%Y-%m-%d") #발신 날짜
     )
     return fax8
-#선불 및 비선불 선택
-option1,option2 = st.tabs(["선불","비선불"])
-with option1:
-    #선불가맹점 서비스
-    servise = st.selectbox(label="서비스",options=["간편결제(내통장결제 포함)","VAN가상계좌","PG가상계좌","010PAY"])
-    #간편,내통장
-    if servise == "간편결제(내통장결제 포함)":
-        st.write("### 1.재이전된 계좌 정보 입력")
-        mid = st.selectbox(label="MID",options=["smile_r","M2060628"],index=None,placeholder="선택")
-        section_1_bankIndex,section_1_bank,section_1_acountIndex,section_1_acount = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
-        section_1_nameIndex,section_1_name,empty = st.columns(spec=[1,2,3],gap="small",vertical_alignment="center")
-        if mid == None:
-            section_1_bankIndex.write("은행 : ")
-            bank1 = section_1_bank.text_input(label="재이전계좌 은행",value=None,label_visibility="collapsed")
-            section_1_acountIndex.write("계좌 번호 : ")
-            acount1 = section_1_acount.number_input(label="재이전계좌 번호",value=None,step=1,label_visibility="collapsed")
-            section_1_nameIndex.write("명의인 : ")
-            name1 = section_1_name.text_input(label="재이전계좌 명의인",value=None,label_visibility="collapsed")
-        else:
-            section_1_bankIndex.write("은행: ")
-            bank1 = section_1_bank.write(mid)
-            section_1_acountIndex.write("계좌 번호: ")
-            acount1 = section_1_acount.write(mid)
-            section_1_nameIndex.write("명의인 : ")
-            name1 = section_1_name.write(mid)
-        st.write("### 2.입금 모계좌")
-        section_2_bankIndex,section_2_bank,section_2_acountIndex,section_2_acount = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
-        section_2_bankIndex.write("은행 : ")
-        bank2 = section_2_bank.text_input(label="입금계좌 은행",value=None,label_visibility="collapsed")
-        section_2_acountIndex.write("계좌 번호 : ")
-        acount2 = section_2_acount.number_input(label="입금계좌 번호",value=None,step=1,label_visibility="collapsed")
-        st.write("### 3.피해정보")
-        section_2_timeIndex,section_2_day,section_2_time,empty,empty = st.columns(spec=[1,1,1,1,1],gap="small",vertical_alignment="center")
-        section_1_timeIndex,section_1_day,section_1_time,empty,empty = st.columns(spec=[1,1,1,1,1],gap="small",vertical_alignment="center")
-        section_1_costIndex,section_1_cost,empty,empty = st.columns(spec=[1,2,1,1],gap="small",vertical_alignment="center")
-        section_2_timeIndex.write("입금 시간 : ")
-        day2 = section_2_day.date_input(label="입금 날짜",label_visibility="collapsed")
-        time2 = section_2_time.text_input(label="입금 시간",value=None,label_visibility="collapsed")
-        section_1_timeIndex.write("정산 시간 : ")
-        day1 = section_1_day.date_input(label="정산 날짜",label_visibility="collapsed")
-        time1 = section_1_time.text_input(label="정산 시간",value=None,label_visibility="collapsed")
-        section_1_costIndex.write("피해금 : ")
-        cost1 = section_1_cost.number_input(label="피해금",value=None,step=1,label_visibility="collapsed")
-        st.write("### 4.기타정보")
-        trNumIndex,trNum,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
-        trNumIndex.write("거래번호 : ")
-        tradeNo = trNum.text_input(label="거래번호",value=None,label_visibility="collapsed")
-        orNumIndex,orNum,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
-        orNumIndex.write("주문번호 : ")
-        orderNo = orNum.text_input(label="주문번호",value=None,label_visibility="collapsed")
-        otherInfomationIndex,otherInfomation,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="top")
-        otherInfomationIndex.write("기타사항 : ")
-        antherInfo = otherInfomation.text_area(label="주문번호",value=None,label_visibility="collapsed")
-        sendbankIndex,sendbank,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
-        sendbankIndex.write("발송은행 : ")
-        sendbank = sendbank.text_input(label="발송은행",value=None,label_visibility="collapsed")
-        empty,savebtn = st.columns(spec=[5,1],gap="small",vertical_alignment="center")
-        if savebtn.button("저장"):
-            with open(htmlForm.format(servise="선불"),"r",encoding="UTF-8") as html:
-                html = html.read()
-            results = formating(form=html,
-                                sec_1_bank=bank1,
-                                sec_1_acount=acount1,
-                                sec_1_name=name1,
-                                sec_1_time=f"{day1}<br>{time1}",
-                                sec_1_cost=cost1,
-                                sec_2_bank=bank2,
-                                sec_2_acount=acount2,
-                                sec_2_time=f"{day2}<br>{time2}",
-                                sec_3_bank="fixed",
-                                sec_3_acount="fixed",
-                                tradeNo=tradeNo,
-                                orderNo=orderNo,
-                                antherInfo=antherInfo,
-                                send=sendbank
-                                )
-            htmlOutput = f"C:\\Users\\USER\\ve_1\\samplePage\\fax8html\\{sendbank}_{cost1}_날짜시간.html"
-            imgOutput = f"C:\\Users\\USER\\ve_1\\samplePage\\fax8image\\{sendbank}_{cost1}_날짜시간.png"
-            with open(htmlOutput,"w",encoding="UTF-8") as html:
-                html.write(results)
-            toImage(htmlOutput,imgOutput)
-            url = "https://api.telegram.org/bot{API}/sendPhoto"
-            with open(imgOutput,"rb") as image_file:
-                requests.post(url, data={"chat_id":"ID"}, files={"photo": image_file})
+#선불가맹점 서비스
+servise = st.selectbox(label="서비스",options=["간편결제","VAN가상계좌","PG가상계좌","010PAY"])
+midList = MID[servise]
+st.write("### 1.재이전된 계좌 정보 입력")
+mid = st.selectbox(label="MID",options=list(midList.keys()),index=None,placeholder="선택",label_visibility="collapsed")
+section_1_bankIndex,section_1_bank,section_1_acountIndex,section_1_acount = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
+section_1_nameIndex,section_1_name,empty = st.columns(spec=[1,2,3],gap="small",vertical_alignment="center")
+st.write("### 2.입금 모계좌")
+inputAcount = st.selectbox(label="입금모계좌",options=list(sec_2.keys()),index=None,placeholder="선택",label_visibility="collapsed")
+section_2_bankIndex,section_2_bank,section_2_acountIndex,section_2_acount = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
+st.write("### 3.피해정보")
+section_2_timeIndex,section_2_day,section_2_time,empty,empty = st.columns(spec=[1,1,1,1,1],gap="small",vertical_alignment="center")
+section_1_timeIndex,section_1_day,section_1_time,empty,empty = st.columns(spec=[1,1,1,1,1],gap="small",vertical_alignment="center")
+section_1_costIndex,section_1_cost,empty,empty = st.columns(spec=[1,2,1,1],gap="small",vertical_alignment="center")
+st.write("### 4.기타정보")
+trNumIndex,trNum,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
+orNumIndex,orNum,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
+otherInfomationIndex,otherInfomation,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="top")
+sendbankIndex,sendbank,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
+#가맹점 계좌정보
+if mid == None:
+    section_1_bankIndex.write("은행 : ")
+    bank1 = section_1_bank.text_input(label="재이전계좌 은행",value=None,label_visibility="collapsed")
+    section_1_acountIndex.write("계좌 번호 : ")
+    acount1 = section_1_acount.number_input(label="재이전계좌 번호",value=None,step=1,label_visibility="collapsed")
+    section_1_nameIndex.write("명의인 : ")
+    name1 = section_1_name.text_input(label="재이전계좌 명의인",value=None,label_visibility="collapsed")
+else:
+    section_1_bankIndex.write("은행: ")
+    bank1 = midList[mid]["은행"]
+    section_1_bank.write(midList[mid]["은행"])
+    section_1_acountIndex.write("계좌 번호: ")
+    acount1 = midList[mid]["계좌"]
+    section_1_acount.write(midList[mid]["계좌"])
+    section_1_nameIndex.write("명의인 : ")
+    name1 = midList[mid]["예금주"]
+    section_1_name.write(midList[mid]["예금주"])
+#입금 모계좌 정보
+if inputAcount == None:
+    section_2_bankIndex.write("은행 : ")
+    bank2 = section_2_bank.text_input(label="입금계좌 은행",value=None,label_visibility="collapsed")
+    section_2_acountIndex.write("계좌 번호 : ")
+    acount2 = section_2_acount.number_input(label="입금계좌 번호",value=None,step=1,label_visibility="collapsed")
+else:
+    section_2_bankIndex.write("은행 : ")
+    bank2 = sec_2[inputAcount]["은행"]
+    section_2_bank.write(sec_2[inputAcount]["은행"])
+    section_2_acountIndex.write("계좌 번호 : ")
+    acount2 = sec_2[inputAcount]["계좌"]
+    section_2_acount.write(sec_2[inputAcount]["계좌"])
+bank3 = sec_3[servise]["은행"]
+acount3 = sec_3[servise]["계좌"]
+section_2_timeIndex.write("입금 시간 : ")
+day2 = section_2_day.date_input(label="입금 날짜",label_visibility="collapsed")
+time2 = section_2_time.text_input(label="입금 시간",value=None,label_visibility="collapsed")
+section_1_timeIndex.write("정산 시간 : ")
+day1 = section_1_day.date_input(label="정산 날짜",label_visibility="collapsed")
+time1 = section_1_time.text_input(label="정산 시간",value=None,label_visibility="collapsed")
+section_1_costIndex.write("피해금 : ")
+cost1 = section_1_cost.number_input(label="피해금",value=None,step=1,label_visibility="collapsed")
+trNumIndex.write("거래번호 : ")
+tradeNo = trNum.text_input(label="거래번호",value=None,label_visibility="collapsed")
+orNumIndex.write("주문번호 : ")
+orderNo = orNum.text_input(label="주문번호",value=None,label_visibility="collapsed")
+otherInfomationIndex.write("기타사항 : ")
+antherInfo = otherInfomation.text_area(label="주문번호",value="-",label_visibility="collapsed")
+sendbankIndex.write("발송은행 : ")
+sendbank = sendbank.text_input(label="발송은행",value=None,label_visibility="collapsed")
+empty,savebtn = st.columns(spec=[5,1],gap="small",vertical_alignment="center")
+if savebtn.button("저장"):
+    results = formating(form=html,
+                        sec_1_bank=bank1,
+                        sec_1_acount=acount1,
+                        sec_1_name=name1,
+                        sec_1_time=f"{day1}<br>{time1}",
+                        sec_1_cost=cost1,
+                        sec_2_bank=bank2,
+                        sec_2_acount=acount2,
+                        sec_2_time=f"{day2}<br>{time2}",
+                        sec_3_bank=bank3,
+                        sec_3_acount=acount3,
+                        tradeNo=tradeNo,
+                        orderNo=orderNo,
+                        antherInfo=antherInfo.replace("  \n","<br>"),
+                        send=sendbank
+                        )
+    htmlOutput = f"C:\\Users\\USER\\ve_1\\samplePage\\fax8html\\{sendbank}_{cost1}_{datetime.now().microsecond}.html"
+    imgOutput = f"C:\\Users\\USER\\ve_1\\samplePage\\fax8image\\{sendbank}_{cost1}_{datetime.now().microsecond}.png"
+    with open(htmlOutput,"w",encoding="UTF-8") as html:
+        html.write(results)
+    toImage(htmlOutput,imgOutput)
+    url = "https://api.telegram.org/bot{API}/sendPhoto"
+    with open(imgOutput,"rb") as image_file:
+        requests.post(url, data={"chat_id":"ID"}, files={"photo": image_file})
