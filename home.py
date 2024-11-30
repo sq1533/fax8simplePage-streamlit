@@ -135,3 +135,5 @@ if savebtn.button("저장"):
     url = "https://api.telegram.org/bot{API}/sendPhoto"
     with open(imgOutput,"rb") as image_file:
         requests.post(url, data={"chat_id":"ID"}, files={"photo": image_file})
+if day2 == datetime.now().strftime("%Y-%m-%d"):
+    pass
