@@ -2,6 +2,7 @@ import streamlit as st
 from jinja2 import Template
 import json
 import requests
+import pandas as pd
 from datetime import datetime
 from selenium import webdriver
 #DB정보 호출 및 정제
@@ -139,4 +140,7 @@ if savebtn.button("저장"):
     with open(imgOutput,"rb") as image_file:
         requests.post(url, data={"chat_id":teleBot['chatId']}, files={"photo": image_file})
 if day2 == datetime.now().strftime("%Y-%m-%d"):
-    pass
+    read = pd.read_json("C:\\Users\\USER\\ve_1\\DB\\6reMind.json",orient='records',dtype={"inputBank":str,"sendBank":str,"cost":str})
+    new = pd.DataFrame(data={"inputBank":bank2,"sendBank":sendbank,"cost":cost1},index=[0])
+    pd.concat([read,new],ignore_index=True).to_json("C:\\Users\\USER\\ve_1\\DB\\6reMind.json",orient='records',force_ascii=False,indent=4)
+else:pass
