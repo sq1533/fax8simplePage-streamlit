@@ -114,7 +114,8 @@ tradeNo = trNum.text_input(label="거래번호",value=None,label_visibility="col
 orNumIndex.write("주문번호 : ")
 orderNo = orNum.text_input(label="주문번호",value=None,label_visibility="collapsed")
 otherInfomationIndex.write("기타사항 : ")
-antherInfo = otherInfomation.text_area(label="주문번호",value="-",label_visibility="collapsed")
+antherInfo = otherInfomation.text_area(label="주문번호",value=None,label_visibility="collapsed")
+antherInfo = antherInfo.replace("\n","<br>") if antherInfo is not None else ""
 sendbankIndex.write("발송은행 : ")
 sendbank = sendbank.text_input(label="발송은행",value=None,label_visibility="collapsed")
 empty,savebtn = st.columns(spec=[5,1],gap="small",vertical_alignment="center")
@@ -132,7 +133,7 @@ if savebtn.button("저장"):
                         sec_3_acount=acount3,
                         tradeNo=tradeNo,
                         orderNo=orderNo,
-                        antherInfo=antherInfo.replace("  \n","<br>"),
+                        antherInfo=antherInfo,
                         send=sendbank
                         )
     htmlOutput = f"C:\\Users\\USER\\ve_1\\samplePage\\fax8html\\{sendbank}_{cost1}_{datetime.now().microsecond}.html"
