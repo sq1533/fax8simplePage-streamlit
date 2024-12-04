@@ -143,8 +143,8 @@ if savebtn.button("저장"):
     url = f"https://api.telegram.org/bot{teleBot['token']}/sendPhoto"
     with open(imgOutput,"rb") as image_file:
         requests.post(url, data={"chat_id":teleBot['chatId']}, files={"photo": image_file})
-if str(day2) == datetime.now().strftime("%Y-%m-%d"):
-    read = pd.read_json("C:\\Users\\USER\\ve_1\\DB\\6reMind.json",orient='records',dtype={"inputBank":str,"sendBank":str,"cost":str})
-    new = pd.DataFrame(data={"inputBank":bank2,"sendBank":sendbank,"cost":str(cost1)},index=[0])
-    pd.concat([read,new],ignore_index=True).to_json("C:\\Users\\USER\\ve_1\\DB\\6reMind.json",orient='records',force_ascii=False,indent=4)
-else:pass
+    if str(day2) == datetime.now().strftime("%Y-%m-%d"):
+        read = pd.read_json("C:\\Users\\USER\\ve_1\\DB\\6reMind.json",orient='records',dtype={"inputBank":str,"sendBank":str,"cost":str})
+        new = pd.DataFrame(data={"inputBank":bank2,"sendBank":sendbank,"cost":str(cost1)},index=[0])
+        pd.concat([read,new],ignore_index=True).to_json("C:\\Users\\USER\\ve_1\\DB\\6reMind.json",orient='records',force_ascii=False,indent=4)
+    else:pass
