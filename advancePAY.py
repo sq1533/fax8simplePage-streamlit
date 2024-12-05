@@ -13,8 +13,10 @@ with open('C:\\Users\\USER\\ve_1\\DB\\3loginInfo.json', 'r', encoding='utf-8') a
     teleB = json.load(f)
 with open("C:\\Users\\USER\\ve_1\\DB\\acountInfo.json","r",encoding="UTF-8") as j:
     ACOUNT = json.load(j)
+with open("C:\\Users\\USER\\ve_1\\DB\\sendFax.json","r",encoding="UTF-8") as j:
+    faxInfo = json.load(j)
 with open("C:\\Users\\USER\\ve_1\\samplePage\\htmlForm\\선불.html","r",encoding="UTF-8") as html:
-    html = html.read()
+    html = html.read()    
 teleBot = teleB['ezmailbot']
 MID = ACOUNT["가맹점"]
 sec_2 = ACOUNT["입금모계좌"]
@@ -144,6 +146,9 @@ if savebtn.button("저장"):
     url = f"https://api.telegram.org/bot{teleBot['token']}/sendPhoto"
     with open(imgOutput,"rb") as image_file:
         requests.post(url, data={"chat_id":teleBot['chatId']}, files={"photo": image_file})
+    for i in faxInfo.keys():
+        if i in sendbank:
+            requests.get(f"https://api.telegram.org/bot{teleBot['token']}/sendMessage?chat_id={teleBot['chatId']}&text={faxInfo[i]}")
     if str(day2) == datetime.now().strftime("%Y-%m-%d"):
         read = pd.read_json("C:\\Users\\USER\\ve_1\\DB\\reMind.json",orient='records',dtype={"inputBank":str,"sendBank":str,"cost":str})
         new = pd.DataFrame(data={"inputBank":bank2,"sendBank":sendbank,"cost":str(cost1)},index=[0])
