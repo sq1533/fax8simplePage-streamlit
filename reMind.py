@@ -14,7 +14,7 @@ def reMind() -> None:
     #공휴일 리마인드 발송 제외
     if today.day not in toMonth:
         if datetime.now().strftime("%H:%M") == "09:00":
-            read = pd.read_json("C:\\Users\\USER\\ve_1\\DB\\6reMind.json",orient='records',dtype={"inputBank":str,"sendBank":str,"cost":str})
+            read = pd.read_json("C:\\Users\\USER\\ve_1\\DB\\reMind.json",orient='records',dtype={"inputBank":str,"sendBank":str,"cost":str})
             if len(read.index.tolist()) == 1:pass
             else:
                 for i in range(1,len(read.index.tolist())):
@@ -22,7 +22,7 @@ def reMind() -> None:
                     requests.get(f"https://api.telegram.org/bot{bot_info['token']}/sendMessage?chat_id={bot_info['chatId']}&text={sendText}")
                     time.sleep(1)
                 #발송 후 데이터 리셋
-                pd.DataFrame(data={"inputBank":"test","sendBank":"test","cost":"test"},index=[0]).to_json("C:\\Users\\USER\\ve_1\\DB\\6reMind.json",orient='records',force_ascii=False,indent=4)
+                pd.DataFrame(data={"inputBank":"test","sendBank":"test","cost":"test"},index=[0]).to_json("C:\\Users\\USER\\ve_1\\DB\\reMind.json",orient='records',force_ascii=False,indent=4)
                 requests.get(f"https://api.telegram.org/bot{bot_HC['token']}/sendMessage?chat_id={bot_HC['chatId']}&text=리마인드 전송 및 리셋")
                 time.sleep(60)
         else:
