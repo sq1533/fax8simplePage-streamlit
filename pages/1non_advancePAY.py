@@ -67,7 +67,7 @@ time2 = section_2_time.text_input(label="입금 시간",value=None,label_visibil
 section_1_costIndex.write("피해금 : ")
 cost1 = section_1_cost.number_input(label="피해금",value=None,step=1,label_visibility="collapsed")
 otherInfomationIndex.write("기타사항 : ")
-antherInfo = otherInfomation.text_area(label="주문번호",value=None,label_visibility="collapsed")
+antherInfo = otherInfomation.text_area(label="기타",value=None,label_visibility="collapsed")
 antherInfo = antherInfo.replace("\n","<br>") if antherInfo is not None else ""
 sendbankIndex.write("발송은행 : ")
 sendbank = sendbank.text_input(label="발송은행",value=None,label_visibility="collapsed")

@@ -6,8 +6,8 @@ import pandas as pd
 from datetime import datetime
 from selenium import webdriver
 # 페이지 레이아웃 설정
-st.set_page_config(page_title="선불",initial_sidebar_state="expanded")
-st.sidebar.title("선불")
+st.set_page_config(page_title="010PAY",initial_sidebar_state="expanded")
+st.sidebar.title("010PAY")
 #DB정보 호출 및 정제
 with open('C:\\Users\\USER\\ve_1\\DB\\3loginInfo.json', 'r', encoding='utf-8') as f:
     teleB = json.load(f)
@@ -15,7 +15,7 @@ with open("C:\\Users\\USER\\ve_1\\DB\\acountInfo.json","r",encoding="UTF-8") as 
     ACOUNT = json.load(j)
 with open("C:\\Users\\USER\\ve_1\\DB\\sendFax.json","r",encoding="UTF-8") as j:
     faxInfo = json.load(j)
-with open("C:\\Users\\USER\\ve_1\\samplePage\\htmlForm\\선불.html","r",encoding="UTF-8") as html:
+with open("C:\\Users\\USER\\ve_1\\samplePage\\htmlForm\\010PAY.html","r",encoding="UTF-8") as html:
     html = html.read()    
 teleBot = teleB['ezmailbot']
 MID = ACOUNT["가맹점"]
@@ -30,64 +30,61 @@ def toImage(inputURL,outputIMG):
     driver.save_screenshot(outputIMG)
     driver.quit()
 #formating 작업
-def formating(form,sec_1_bank,sec_1_acount,sec_1_name,sec_1_time,sec_1_cost,sec_2_bank,sec_2_acount,sec_2_time,sec_3_bank,sec_3_acount,tradeNo,orderNo,antherInfo,send):
+def formating(form,sec_1_bank,sec_1_acount,sec_1_name,sec_1_time,sec_1_cost,sec_2_bank,sec_2_acount,sec_2_time,sec_2_cost,sec_3_bank,sec_3_acount,sec_3_time,AboutBuy,UsedCost,ReturnCost,InCost,antherInfo,send):
     #jinja templete 변경 및 formating
     fax8 = Template(form).render(
-        section_1_bank = sec_1_bank, #재이전 모계좌 은행
-        section_1_acount = sec_1_acount, #재이전 모계좌 번호
-        section_1_name = sec_1_name, #재이전 가맹점
-        section_1_time = sec_1_time, #정산 시간
-        section_1_cost = sec_1_cost, #피해금
+        section_1_bank = sec_1_bank, #환불계좌 은행
+        section_1_acount = sec_1_acount, #환불계좌 번호
+        section_1_name = sec_1_name, #환불계좌 명의인
+        section_1_time = sec_1_time, #환불 시간
+        section_1_cost = sec_1_cost, #환불금
         section_2_bank = sec_2_bank, #입금 은행
         section_2_acount = sec_2_acount, #입금 계좌
         section_2_time = sec_2_time, #입금 시간
+        section_2_cost = sec_2_cost, #피해금
         section_3_bank = sec_3_bank, #정산 계좌 은행
         section_3_acount = sec_3_acount, #정산 계좌 번호
-        trNum = tradeNo, #거래번호
-        orNum = orderNo, #주문번호
+        section_3_time = sec_3_time, #정산 시간
+        aboutBuy = AboutBuy, #실제사용처
+        usedCost = UsedCost, #이용 금액
+        returnCost = ReturnCost, #환불 금액
+        inCost = InCost, #선불충전금 잔액
         otherInfomation = antherInfo, #특이사항
         sendBank = send, #수신 은행
         today = datetime.now().strftime("%Y-%m-%d") #발신 날짜
     )
     return fax8
 
-#선불가맹점 서비스
-servise = st.selectbox(label="서비스",options=["간편결제","VAN가상계좌","PG가상계좌"])
-midList = MID[servise]
-st.write("### 1.재이전된 계좌 정보")
-mid = st.selectbox(label="MID",options=list(midList.keys()),index=None,placeholder="선택",label_visibility="collapsed")
+st.write("### 1.환불 계좌 정보")
 section_1_bankIndex,section_1_bank,section_1_acountIndex,section_1_acount = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
 section_1_nameIndex,section_1_name,empty = st.columns(spec=[1,2,3],gap="small",vertical_alignment="center")
+section_1_timeIndex,section_1_day,section_1_time,empty = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
+section_1_costIndex,section_1_cost,empty = st.columns(spec=[1,2,3],gap="small",vertical_alignment="center")
 st.write("### 2.입금 모계좌")
 inputAcount = st.selectbox(label="입금모계좌",options=list(sec_2.keys()),index=None,placeholder="선택",label_visibility="collapsed")
 section_2_bankIndex,section_2_bank,section_2_acountIndex,section_2_acount = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
-st.write("### 3.피해정보")
-section_2_timeIndex,section_2_day,section_2_time,empty,empty = st.columns(spec=[1,1,1,1,1],gap="small",vertical_alignment="center")
-section_1_timeIndex,section_1_day,section_1_time,empty,empty = st.columns(spec=[1,1,1,1,1],gap="small",vertical_alignment="center")
-section_1_costIndex,section_1_cost,empty,empty = st.columns(spec=[1,2,1,1],gap="small",vertical_alignment="center")
-st.write("### 4.기타정보")
-trNumIndex,trNum,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
-orNumIndex,orNum,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
+section_2_timeIndex,section_2_day,section_2_time,empty = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
+section_3_timeIndex,section_3_day,section_3_time,empty = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
+section_2_costIndex,section_2_cost,empty = st.columns(spec=[1,2,3],gap="small",vertical_alignment="center")
+st.write("### 3.기타정보")
+aboutBuyIndex,aboutBuy,empty = st.columns(spec=[1,2,2],gap="small",vertical_alignment="center")
+usedCostIndex,usedCost,empty = st.columns(spec=[1,2,2],gap="small",vertical_alignment="center")
+returnCostIndex,returnCost,empty = st.columns(spec=[1,2,2],gap="small",vertical_alignment="center")
+inCostIndex,inCost,empty = st.columns(spec=[1,2,2],gap="small",vertical_alignment="center")
 otherInfomationIndex,otherInfomation,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="top")
 sendbankIndex,sendbank,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
 #가맹점 계좌정보
-if mid == None:
-    section_1_bankIndex.write("은행 : ")
-    bank1 = section_1_bank.text_input(label="재이전계좌 은행",value=None,label_visibility="collapsed")
-    section_1_acountIndex.write("계좌 번호 : ")
-    acount1 = section_1_acount.number_input(label="재이전계좌 번호",value=None,step=1,label_visibility="collapsed")
-    section_1_nameIndex.write("명의인 : ")
-    name1 = section_1_name.text_input(label="재이전계좌 명의인",value=None,label_visibility="collapsed")
-else:
-    section_1_bankIndex.write("은행: ")
-    bank1 = midList[mid]["은행"]
-    section_1_bank.write(midList[mid]["은행"])
-    section_1_acountIndex.write("계좌 번호: ")
-    acount1 = midList[mid]["계좌"]
-    section_1_acount.write(midList[mid]["계좌"])
-    section_1_nameIndex.write("명의인 : ")
-    name1 = midList[mid]["예금주"]
-    section_1_name.write(midList[mid]["예금주"])
+section_1_bankIndex.write("은행 : ")
+bank1 = section_1_bank.text_input(label="재이전계좌 은행",value=None,label_visibility="collapsed")
+section_1_acountIndex.write("계좌 번호 : ")
+acount1 = section_1_acount.number_input(label="재이전계좌 번호",value=None,step=1,label_visibility="collapsed")
+section_1_nameIndex.write("명의인 : ")
+name1 = section_1_name.text_input(label="재이전계좌 명의인",value=None,label_visibility="collapsed")
+section_1_costIndex.write("환불금액 : ")
+cost1 = section_1_cost.number_input(label="환불금액",value=None,step=1,label_visibility="collapsed")
+section_1_timeIndex.write("환불 시간 : ")
+day1 = section_1_day.date_input(label="환불 날짜",label_visibility="collapsed")
+time1 = section_1_time.text_input(label="환불 시간",value=None,label_visibility="collapsed")
 #입금 모계좌 정보
 if inputAcount == None:
     section_2_bankIndex.write("은행 : ")
@@ -101,20 +98,26 @@ else:
     section_2_acountIndex.write("계좌 번호 : ")
     acount2 = sec_2[inputAcount]["계좌"]
     section_2_acount.write(sec_2[inputAcount]["계좌"])
-bank3 = sec_3[servise]["은행"]
-acount3 = sec_3[servise]["계좌"]
+section_2_costIndex.write("피해금 : ")
+cost2 = section_2_cost.number_input(label="피해금",value=None,step=1,label_visibility="collapsed")
 section_2_timeIndex.write("입금 시간 : ")
 day2 = section_2_day.date_input(label="입금 날짜",label_visibility="collapsed")
 time2 = section_2_time.text_input(label="입금 시간",value=None,label_visibility="collapsed")
-section_1_timeIndex.write("정산 시간 : ")
-day1 = section_1_day.date_input(label="정산 날짜",label_visibility="collapsed")
-time1 = section_1_time.text_input(label="정산 시간",value=None,label_visibility="collapsed")
-section_1_costIndex.write("피해금 : ")
-cost1 = section_1_cost.number_input(label="피해금",value=None,step=1,label_visibility="collapsed")
-trNumIndex.write("거래번호 : ")
-tradeNo = trNum.text_input(label="거래번호",value=None,label_visibility="collapsed")
-orNumIndex.write("주문번호 : ")
-orderNo = orNum.text_input(label="주문번호",value=None,label_visibility="collapsed")
+#정산 모계좌 정보
+bank3 = sec_3["010PAY"]["은행"]
+acount3 = sec_3["010PAY"]["계좌"]
+section_3_timeIndex.write("정산 시간 : ")
+day3 = section_3_day.date_input(label="정산 날짜",label_visibility="collapsed")
+time3 = section_3_time.text_input(label="정산 시간",value=None,label_visibility="collapsed")
+#기타정보
+aboutBuyIndex.write("실제사용처 : ")
+aboutBuy = aboutBuy.text_input(label="실제사용처",value=None,label_visibility="collapsed")
+usedCostIndex.write("이용 금액 : ")
+usedCost = usedCost.number_input(label="이용금",value=None,step=1,label_visibility="collapsed")
+returnCostIndex.write("환불(출금) 금액 : ")
+returnCost = returnCost.number_input(label="환불금",value=None,step=1,label_visibility="collapsed")
+inCostIndex.write("선불충전금 잔액 : ")
+inCost = inCost.number_input(label="잔액",value=None,step=1,label_visibility="collapsed")
 otherInfomationIndex.write("기타사항 : ")
 antherInfo = otherInfomation.text_area(label="기타",value=None,label_visibility="collapsed")
 antherInfo = antherInfo.replace("\n","<br>") if antherInfo is not None else ""
@@ -131,10 +134,14 @@ if savebtn.button("저장"):
                         sec_2_bank=bank2,
                         sec_2_acount=acount2,
                         sec_2_time=f"{day2}<br>{time2}",
+                        sec_2_cost=cost2,
                         sec_3_bank=bank3,
                         sec_3_acount=acount3,
-                        tradeNo=tradeNo,
-                        orderNo=orderNo,
+                        sec_3_time=f"{day3}<br>{time3}",
+                        AboutBuy=aboutBuy,
+                        UsedCost=usedCost,
+                        ReturnCost=returnCost,
+                        InCost=inCost,
                         antherInfo=antherInfo,
                         send=sendbank
                         )
@@ -149,8 +156,4 @@ if savebtn.button("저장"):
     for i in faxInfo.keys():
         if i in sendbank:
             requests.get(f"https://api.telegram.org/bot{teleBot['token']}/sendMessage?chat_id={teleBot['chatId']}&text={faxInfo[i]}")
-    if str(day2) == datetime.now().strftime("%Y-%m-%d"):
-        read = pd.read_json("C:\\Users\\USER\\ve_1\\DB\\reMind.json",orient='records',dtype={"inputBank":str,"sendBank":str,"cost":str})
-        new = pd.DataFrame(data={"inputBank":bank2,"sendBank":sendbank,"cost":str(cost1)},index=[0])
-        pd.concat([read,new],ignore_index=True).to_json("C:\\Users\\USER\\ve_1\\DB\\reMind.json",orient='records',force_ascii=False,indent=4)
     else:pass
