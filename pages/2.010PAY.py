@@ -54,37 +54,69 @@ def formating(form,sec_1_bank,sec_1_acount,sec_1_name,sec_1_time,sec_1_cost,sec_
         today = datetime.now().strftime("%Y-%m-%d") #발신 날짜
     )
     return fax8
-
-st.write("### 1.환불 계좌 정보")
-section_1_bankIndex,section_1_bank,section_1_acountIndex,section_1_acount = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
-section_1_nameIndex,section_1_name,empty = st.columns(spec=[1,2,3],gap="small",vertical_alignment="center")
-section_1_timeIndex,section_1_day,section_1_time,empty = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
-section_1_costIndex,section_1_cost,empty = st.columns(spec=[1,2,3],gap="small",vertical_alignment="center")
-st.write("### 2.입금 모계좌")
+st.write("### 입금 모계좌")
 inputAcount = st.selectbox(label="입금모계좌",options=list(sec_2.keys()),index=None,placeholder="선택",label_visibility="collapsed")
 section_2_bankIndex,section_2_bank,section_2_acountIndex,section_2_acount = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
 section_2_timeIndex,section_2_day,section_2_time,empty = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
-section_3_timeIndex,section_3_day,section_3_time,empty = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
 section_2_costIndex,section_2_cost,empty = st.columns(spec=[1,2,3],gap="small",vertical_alignment="center")
-st.write("### 3.기타정보")
+pay010 = st.radio(label="잔금처리방법",options=["선불충전금 보유","기프티몰 결제","고객계좌 환불"],label_visibility="collapsed")
+if pay010 == "선불충전금 보유":
+    bank1 = "-"
+    acount1 = "-"
+    name1 = "-"
+    cost1 = "-"
+    day1 = "-"
+    time1 = "-"
+    bank3 = "-"
+    acount3 = "-"
+    day3 = "-"
+    time3 = "-"
+elif pay010 == "기프티몰 결제":
+    bank1 = "-"
+    acount1 = "-"
+    name1 = "-"
+    cost1 = "-"
+    day1 = "-"
+    time1 = "-"
+    section_3_timeIndex,section_3_day,section_3_time,empty = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
+    #정산 모계좌 정보
+    bank3 = sec_3["010PAY"]["은행"]
+    acount3 = sec_3["010PAY"]["계좌"]
+    section_3_timeIndex.write("정산 시간 : ")
+    day3 = section_3_day.date_input(label="정산 날짜",label_visibility="collapsed")
+    time3 = section_3_time.text_input(label="정산 시간",value=None,label_visibility="collapsed")
+else:
+    st.write("### 환불 계좌 정보")
+    section_1_bankIndex,section_1_bank,section_1_acountIndex,section_1_acount = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
+    section_1_nameIndex,section_1_name,empty = st.columns(spec=[1,2,3],gap="small",vertical_alignment="center")
+    section_1_timeIndex,section_1_day,section_1_time,empty = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
+    section_3_timeIndex,section_3_day,section_3_time,empty = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
+    section_1_costIndex,section_1_cost,empty = st.columns(spec=[1,2,3],gap="small",vertical_alignment="center")
+    #환불 계좌정보
+    section_1_bankIndex.write("은행 : ")
+    bank1 = section_1_bank.text_input(label="재이전계좌 은행",value=None,label_visibility="collapsed")
+    section_1_acountIndex.write("계좌 번호 : ")
+    acount1 = section_1_acount.number_input(label="재이전계좌 번호",value=None,step=1,label_visibility="collapsed")
+    section_1_nameIndex.write("명의인 : ")
+    name1 = section_1_name.text_input(label="재이전계좌 명의인",value=None,label_visibility="collapsed")
+    section_1_timeIndex.write("환불 시간 : ")
+    day1 = section_1_day.date_input(label="환불 날짜",label_visibility="collapsed")
+    time1 = section_1_time.text_input(label="환불 시간",value=None,label_visibility="collapsed")
+    section_1_costIndex.write("환불금액 : ")
+    cost1 = section_1_cost.number_input(label="환불금액",value=None,step=1,label_visibility="collapsed")
+    #정산 모계좌 정보
+    bank3 = sec_3["010PAY"]["은행"]
+    acount3 = sec_3["010PAY"]["계좌"]
+    section_3_timeIndex.write("정산 시간 : ")
+    day3 = section_3_day.date_input(label="정산 날짜",label_visibility="collapsed")
+    time3 = section_3_time.text_input(label="정산 시간",value=None,label_visibility="collapsed")
+st.write("### 기타정보")
 aboutBuyIndex,aboutBuy,empty = st.columns(spec=[1,2,2],gap="small",vertical_alignment="center")
 usedCostIndex,usedCost,empty = st.columns(spec=[1,2,2],gap="small",vertical_alignment="center")
 returnCostIndex,returnCost,empty = st.columns(spec=[1,2,2],gap="small",vertical_alignment="center")
 inCostIndex,inCost,empty = st.columns(spec=[1,2,2],gap="small",vertical_alignment="center")
 otherInfomationIndex,otherInfomation,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="top")
 sendbankIndex,sendbank,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
-#가맹점 계좌정보
-section_1_bankIndex.write("은행 : ")
-bank1 = section_1_bank.text_input(label="재이전계좌 은행",value=None,label_visibility="collapsed")
-section_1_acountIndex.write("계좌 번호 : ")
-acount1 = section_1_acount.number_input(label="재이전계좌 번호",value=None,step=1,label_visibility="collapsed")
-section_1_nameIndex.write("명의인 : ")
-name1 = section_1_name.text_input(label="재이전계좌 명의인",value=None,label_visibility="collapsed")
-section_1_costIndex.write("환불금액 : ")
-cost1 = section_1_cost.number_input(label="환불금액",value=None,step=1,label_visibility="collapsed")
-section_1_timeIndex.write("환불 시간 : ")
-day1 = section_1_day.date_input(label="환불 날짜",label_visibility="collapsed")
-time1 = section_1_time.text_input(label="환불 시간",value=None,label_visibility="collapsed")
 #입금 모계좌 정보
 if inputAcount == None:
     section_2_bankIndex.write("은행 : ")
@@ -103,12 +135,6 @@ cost2 = section_2_cost.number_input(label="피해금",value=None,step=1,label_vi
 section_2_timeIndex.write("입금 시간 : ")
 day2 = section_2_day.date_input(label="입금 날짜",label_visibility="collapsed")
 time2 = section_2_time.text_input(label="입금 시간",value=None,label_visibility="collapsed")
-#정산 모계좌 정보
-bank3 = sec_3["010PAY"]["은행"]
-acount3 = sec_3["010PAY"]["계좌"]
-section_3_timeIndex.write("정산 시간 : ")
-day3 = section_3_day.date_input(label="정산 날짜",label_visibility="collapsed")
-time3 = section_3_time.text_input(label="정산 시간",value=None,label_visibility="collapsed")
 #기타정보
 aboutBuyIndex.write("실제사용처 : ")
 aboutBuy = aboutBuy.text_input(label="실제사용처",value=None,label_visibility="collapsed")
