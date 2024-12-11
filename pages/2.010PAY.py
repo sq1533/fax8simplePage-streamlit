@@ -9,10 +9,10 @@ import streamlit as st
 st.set_page_config(page_title="010PAY",initial_sidebar_state="expanded")
 st.sidebar.title("010PAY")
 #DB정보 호출 및 정제
-loginInfoPath = os.path.join(os.path.dirname(__file__),"DB","1loginInfo.json")
-acountInfoPath = os.path.join(os.path.dirname(__file__),"DB","acountInfo.json")
-sendFaxPath = os.path.join(os.path.dirname(__file__),"DB","sendFax.json")
-htmlPath = os.path.join(os.path.dirname(__file__),"htmlForm","010PAY.html")
+loginInfoPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"DB","1loginInfo.json")
+acountInfoPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"DB","acountInfo.json")
+sendFaxPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"DB","sendFax.json")
+htmlPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"htmlForm","010PAY.html")
 with open(loginInfoPath, 'r', encoding='utf-8') as f:
     teleB = json.load(f)
 with open(acountInfoPath,"r",encoding="UTF-8") as j:
