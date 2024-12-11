@@ -1,7 +1,7 @@
-import requests
-import json
 import os
+import json
 import pandas as pd
+import requests
 import time
 from datetime import datetime
 loginPath = os.path.join(os.path.dirname(__file__),"DB","1loginInfo.json")
