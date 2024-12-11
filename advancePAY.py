@@ -1,6 +1,7 @@
 import streamlit as st
 from jinja2 import Template
 import json
+import os
 import requests
 import pandas as pd
 from datetime import datetime
@@ -9,13 +10,18 @@ from selenium import webdriver
 st.set_page_config(page_title="선불",initial_sidebar_state="expanded")
 st.sidebar.title("선불")
 #DB정보 호출 및 정제
-with open('C:\\Users\\USER\\ve_1\\DB\\3loginInfo.json', 'r', encoding='utf-8') as f:
+loginInfoPath = os.path.join(os.path.dirname(__file__),"DB","1loginInfo.json")
+acountInfoPath = os.path.join(os.path.dirname(__file__),"DB","acountInfo.json")
+sendFaxPath = os.path.join(os.path.dirname(__file__),"DB","sendFax.json")
+reMindPath = os.path.join(os.path.dirname(__file__),"DB","reMind.json")
+htmlPath = os.path.join(os.path.dirname(__file__),"htmlForm","선불.html")
+with open(loginInfoPath, 'r', encoding='utf-8') as f:
     teleB = json.load(f)
-with open("C:\\Users\\USER\\ve_1\\DB\\acountInfo.json","r",encoding="UTF-8") as j:
+with open(acountInfoPath,"r",encoding="UTF-8") as j:
     ACOUNT = json.load(j)
-with open("C:\\Users\\USER\\ve_1\\DB\\sendFax.json","r",encoding="UTF-8") as j:
+with open(sendFaxPath,"r",encoding="UTF-8") as j:
     faxInfo = json.load(j)
-with open("C:\\Users\\USER\\ve_1\\samplePage\\htmlForm\\선불.html","r",encoding="UTF-8") as html:
+with open(htmlPath,"r",encoding="UTF-8") as html:
     html = html.read()    
 teleBot = teleB['ezmailbot']
 MID = ACOUNT["가맹점"]
@@ -150,7 +156,7 @@ if savebtn.button("저장"):
         if i in sendbank:
             requests.get(f"https://api.telegram.org/bot{teleBot['token']}/sendMessage?chat_id={teleBot['chatId']}&text={faxInfo[i]}")
     if str(day2) == datetime.now().strftime("%Y-%m-%d"):
-        read = pd.read_json("C:\\Users\\USER\\ve_1\\DB\\reMind.json",orient='records',dtype={"inputBank":str,"sendBank":str,"cost":str})
+        read = pd.read_json(reMindPath,orient='records',dtype={"inputBank":str,"sendBank":str,"cost":str})
         new = pd.DataFrame(data={"inputBank":bank2,"sendBank":sendbank,"cost":str(cost1)},index=[0])
-        pd.concat([read,new],ignore_index=True).to_json("C:\\Users\\USER\\ve_1\\DB\\reMind.json",orient='records',force_ascii=False,indent=4)
+        pd.concat([read,new],ignore_index=True).to_json(reMindPath,orient='records',force_ascii=False,indent=4)
     else:pass

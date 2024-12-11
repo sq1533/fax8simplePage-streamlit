@@ -1,6 +1,7 @@
 import streamlit as st
 from jinja2 import Template
 import json
+import os
 import requests
 from datetime import datetime
 from selenium import webdriver
@@ -8,13 +9,17 @@ from selenium import webdriver
 st.set_page_config(page_title="비선불",initial_sidebar_state="expanded")
 st.sidebar.title("비선불")
 #DB정보 호출 및 정제
-with open('C:\\Users\\USER\\ve_1\\DB\\3loginInfo.json', 'r', encoding='utf-8') as f:
+loginInfoPath = os.path.join(os.path.dirname(__file__),"DB","1loginInfo.json")
+acountInfoPath = os.path.join(os.path.dirname(__file__),"DB","acountInfo.json")
+sendFaxPath = os.path.join(os.path.dirname(__file__),"DB","sendFax.json")
+htmlPath = os.path.join(os.path.dirname(__file__),"htmlForm","비선불.html")
+with open(loginInfoPath, 'r', encoding='utf-8') as f:
     teleB = json.load(f)
-with open("C:\\Users\\USER\\ve_1\\DB\\acountInfo.json","r",encoding="UTF-8") as j:
+with open(acountInfoPath,"r",encoding="UTF-8") as j:
     ACOUNT = json.load(j)
-with open("C:\\Users\\USER\\ve_1\\DB\\sendFax.json","r",encoding="UTF-8") as j:
+with open(sendFaxPath,"r",encoding="UTF-8") as j:
     faxInfo = json.load(j)
-with open("C:\\Users\\USER\\ve_1\\samplePage\\htmlForm\\비선불.html","r",encoding="UTF-8") as html:
+with open(htmlPath,"r",encoding="UTF-8") as html:
     html = html.read()
 teleBot = teleB['ezmailbot']
 sec_2 = ACOUNT["입금모계좌"]
