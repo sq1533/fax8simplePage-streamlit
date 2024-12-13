@@ -70,7 +70,7 @@ section_2_bankIndex,section_2_bank,section_2_acountIndex,section_2_acount = st.c
 st.write("### 3.피해정보")
 section_2_timeIndex,section_2_day,section_2_time,empty,empty = st.columns(spec=[1,1,1,1,1],gap="small",vertical_alignment="center")
 section_1_timeIndex,section_1_day,section_1_time,empty,empty = st.columns(spec=[1,1,1,1,1],gap="small",vertical_alignment="center")
-section_1_costIndex,section_1_cost,empty,empty = st.columns(spec=[1,2,1,1],gap="small",vertical_alignment="center")
+section_1_costIndex,section_1_cost,section_1_costComma,empty,empty = st.columns(spec=[1,1,1,1,1],gap="small",vertical_alignment="center")
 st.write("### 4.기타정보")
 trNumIndex,trNum,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
 orNumIndex,orNum,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
@@ -81,7 +81,7 @@ if mid == None:
     section_1_bankIndex.write("은행 : ")
     bank1 = section_1_bank.text_input(label="재이전계좌 은행",value=None,label_visibility="collapsed")
     section_1_acountIndex.write("계좌 번호 : ")
-    acount1 = section_1_acount.number_input(label="재이전계좌 번호",value=None,step=1,label_visibility="collapsed")
+    acount1 = section_1_acount.text_input(label="재이전계좌 번호",value=None,label_visibility="collapsed")
     section_1_nameIndex.write("명의인 : ")
     name1 = section_1_name.text_input(label="재이전계좌 명의인",value=None,label_visibility="collapsed")
 else:
@@ -99,7 +99,7 @@ if inputAcount == None:
     section_2_bankIndex.write("은행 : ")
     bank2 = section_2_bank.text_input(label="입금계좌 은행",value=None,label_visibility="collapsed")
     section_2_acountIndex.write("계좌 번호 : ")
-    acount2 = section_2_acount.number_input(label="입금계좌 번호",value=None,step=1,label_visibility="collapsed")
+    acount2 = section_2_acount.text_input(label="입금계좌 번호",value=None,label_visibility="collapsed")
 else:
     section_2_bankIndex.write("은행 : ")
     bank2 = sec_2[inputAcount]["은행"]
@@ -116,7 +116,14 @@ section_1_timeIndex.write("정산 시간 : ")
 day1 = section_1_day.date_input(label="정산 날짜",label_visibility="collapsed")
 time1 = section_1_time.text_input(label="정산 시간",value=None,label_visibility="collapsed")
 section_1_costIndex.write("피해금 : ")
-cost1 = section_1_cost.number_input(label="피해금",value=None,step=1,label_visibility="collapsed")
+cost1None = section_1_cost.text_input(label="피해금",value=None,label_visibility="collapsed")
+if cost1None:
+    try:
+        number = int(cost1None.replace(",", ""))
+        formatted_number = f"{number:,}"
+        cost1 = section_1_costComma.write(formatted_number,label_visibility="collapsed")
+    except ValueError:
+        section_1_costComma.error("입력값 오류")
 trNumIndex.write("거래번호 : ")
 tradeNo = trNum.text_input(label="거래번호",value=None,label_visibility="collapsed")
 orNumIndex.write("주문번호 : ")

@@ -49,7 +49,7 @@ inputAcount = st.selectbox(label="입금모계좌",options=list(sec_2.keys()),in
 section_2_bankIndex,section_2_bank,section_2_acountIndex,section_2_acount = st.columns(spec=[1,1,1,3],gap="small",vertical_alignment="center")
 st.write("### 2.피해정보")
 section_2_timeIndex,section_2_day,section_2_time,empty,empty = st.columns(spec=[1,1,1,1,1],gap="small",vertical_alignment="center")
-section_1_costIndex,section_1_cost,empty,empty = st.columns(spec=[1,2,1,1],gap="small",vertical_alignment="center")
+section_1_costIndex,section_1_cost,section_1_costComma,empty,empty = st.columns(spec=[1,1,1,1,1],gap="small",vertical_alignment="center")
 st.write("### 3.기타정보")
 otherInfomationIndex,otherInfomation,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="top")
 sendbankIndex,sendbank,empty = st.columns(spec=[1,3,1],gap="small",vertical_alignment="center")
@@ -58,7 +58,7 @@ if inputAcount == None:
     section_2_bankIndex.write("은행 : ")
     bank2 = section_2_bank.text_input(label="입금계좌 은행",value=None,label_visibility="collapsed")
     section_2_acountIndex.write("계좌 번호 : ")
-    acount2 = section_2_acount.number_input(label="입금계좌 번호",value=None,step=1,label_visibility="collapsed")
+    acount2 = section_2_acount.text_input(label="입금계좌 번호",value=None,label_visibility="collapsed")
 else:
     section_2_bankIndex.write("은행 : ")
     bank2 = sec_2[inputAcount]["은행"]
@@ -70,7 +70,14 @@ section_2_timeIndex.write("입금 시간 : ")
 day2 = section_2_day.date_input(label="입금 날짜",label_visibility="collapsed")
 time2 = section_2_time.text_input(label="입금 시간",value=None,label_visibility="collapsed")
 section_1_costIndex.write("피해금 : ")
-cost1 = section_1_cost.number_input(label="피해금",value=None,step=1,label_visibility="collapsed")
+cost1None = section_1_cost.text_input(label="피해금",value=None,label_visibility="collapsed")
+if cost1None:
+    try:
+        number = int(cost1None.replace(",", ""))
+        formatted_number = f"{number:,}"
+        cost1 = section_1_costComma.write(formatted_number,label_visibility="collapsed")
+    except ValueError:
+        section_1_costComma.error("입력값 오류")
 otherInfomationIndex.write("기타사항 : ")
 antherInfo = otherInfomation.text_area(label="기타",value=None,label_visibility="collapsed")
 antherInfo = antherInfo.replace("\n","<br>") if antherInfo is not None else ""
