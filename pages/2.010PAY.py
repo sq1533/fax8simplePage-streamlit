@@ -111,8 +111,8 @@ else:
     if cost1None:
         try:
             number = int(cost1None.replace(",", ""))
-            formatted_number = f"{number:,}"
-            cost1 = section_1_costComma.write(formatted_number,label_visibility="collapsed")
+            cost1 = f"{number:,}"
+            section_1_costComma.write(cost1,label_visibility="collapsed")
         except ValueError:
             section_1_costComma.error("입력값 오류")
     #정산 모계좌 정보
@@ -146,8 +146,8 @@ cost2None = section_2_cost.text_input(label="피해금",value=None,label_visibil
 if cost2None:
     try:
         number = int(cost2None.replace(",", ""))
-        formatted_number = f"{number:,}"
-        cost2 = section_2_costComma.write(formatted_number,label_visibility="collapsed")
+        cost2 = f"{number:,}"
+        section_2_costComma.write(cost2,label_visibility="collapsed")
     except ValueError:
         section_2_costComma.error("입력값 오류")
 section_2_timeIndex.write("입금 시간 : ")
@@ -161,8 +161,8 @@ usedCostNone = usedCost.text_input(label="이용금",value=None,label_visibility
 if usedCostNone:
     try:
         number = int(usedCostNone.replace(",", ""))
-        formatted_number = f"{number:,}"
-        usedCost = usedCostComma.write(formatted_number,label_visibility="collapsed")
+        usedCost = f"{number:,}"
+        usedCostComma.write(usedCost,label_visibility="collapsed")
     except ValueError:
         usedCostComma.error("입력값 오류")
 returnCostIndex.write("환불(출금) 금액 : ")
@@ -170,8 +170,8 @@ returnCostNone = returnCost.text_input(label="환불금",value=None,label_visibi
 if returnCostNone:
     try:
         number = int(returnCostNone.replace(",", ""))
-        formatted_number = f"{number:,}"
-        returnCost = returnCostComma.write(formatted_number,label_visibility="collapsed")
+        returnCost = f"{number:,}"
+        returnCostComma.write(returnCost,label_visibility="collapsed")
     except ValueError:
         returnCostComma.error("입력값 오류")
 inCostIndex.write("선불금 잔액 : ")
@@ -179,8 +179,8 @@ inCostNone = inCost.text_input(label="잔액",value=None,label_visibility="colla
 if inCostNone:
     try:
         number = int(inCostNone.replace(",", ""))
-        formatted_number = f"{number:,}"
-        inCost = inCostComma.write(formatted_number,label_visibility="collapsed")
+        inCost = f"{number:,}"
+        inCostComma.write(inCost,label_visibility="collapsed")
     except ValueError:
         inCostComma.error("입력값 오류")
 otherInfomationIndex.write("기타사항 : ")

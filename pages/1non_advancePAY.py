@@ -74,8 +74,8 @@ cost1None = section_1_cost.text_input(label="피해금",value=None,label_visibil
 if cost1None:
     try:
         number = int(cost1None.replace(",", ""))
-        formatted_number = f"{number:,}"
-        cost1 = section_1_costComma.write(formatted_number,label_visibility="collapsed")
+        cost1 = f"{number:,}"
+        section_1_costComma.write(cost1,label_visibility="collapsed")
     except ValueError:
         section_1_costComma.error("입력값 오류")
 otherInfomationIndex.write("기타사항 : ")
