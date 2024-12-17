@@ -50,6 +50,8 @@ for i in list(readBoards.keys()):
             commentW(i,comments)
         if delB.button(label=f"{i}삭제"):
             boardD(i)
-empty,boardB = st.columns([7,1],vertical_alignment="top")
+rerunB,empty,boardB = st.columns([3,3,1],vertical_alignment="top")
 if boardB.button(label="글쓰기"):
     board()
+if rerunB.button(label="새로고침"):
+    st.rerun()
