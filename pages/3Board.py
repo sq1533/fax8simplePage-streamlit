@@ -42,7 +42,6 @@ with open(boardPath, 'r', encoding='utf-8') as j:
     readBoards = json.load(j)
 for i in list(readBoards.keys()):
     with st.expander(label=readBoards[i]["title"]):
-        st.write(readBoards[i]['title'])
         for j in range(0,len(readBoards[i]['comments'])):
             st.write(readBoards[i]['comments'][j])
         comments = st.text_input(label=f"{i}댓글",value=None,label_visibility="collapsed")
