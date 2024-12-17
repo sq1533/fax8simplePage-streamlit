@@ -40,17 +40,17 @@ def board():
 #본문
 with open(boardPath, 'r', encoding='utf-8') as j:
     readBoards = json.load(j)
-for i in range(2,len(readBoards)+1):
-    with st.expander(label=readBoards[str(i)]["title"]):
-        st.write(f"{str(i-1)}.{readBoards[str(i)]['title']}")
-        for j in range(0,len(readBoards[str(i)]['comments'])):
-            st.write(readBoards[str(i)]['comments'][j])
-        comments = st.text_input(label=f"{str(i-1)}댓글",value=None,label_visibility="collapsed")
+for i in list(readBoards.keys()):
+    with st.expander(label=readBoards[i]["title"]):
+        st.write(readBoards[i]['title'])
+        for j in range(0,len(readBoards[i]['comments'])):
+            st.write(readBoards[i]['comments'][j])
+        comments = st.text_input(label=f"{i}댓글",value=None,label_visibility="collapsed")
         empty,commB,delB = st.columns([6,1,1],vertical_alignment="top")
-        if commB.button(label=f"{str(i-1)}댓글"):
-            commentW(str(i),comments)
-        if delB.button(label=f"{str(i-1)}삭제"):
-            boardD(str(i))
+        if commB.button(label=f"{i}댓글"):
+            commentW(i,comments)
+        if delB.button(label=f"{i}삭제"):
+            boardD(i)
 empty,boardB = st.columns([7,1],vertical_alignment="top")
 if boardB.button(label="글쓰기"):
     board()
