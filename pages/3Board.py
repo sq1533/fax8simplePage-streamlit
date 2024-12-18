@@ -1,5 +1,6 @@
 import os
 import json
+from datetime import datetime
 import streamlit as st
 # 페이지 레이아웃 설정
 st.set_page_config(page_title="자유게시판",initial_sidebar_state="expanded")
@@ -10,7 +11,7 @@ boardPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","DB","b
 def boardW(write:str):
     with open(boardPath, 'r', encoding='utf-8') as j:
         readBoards = json.load(j)
-    number = str(len(readBoards)+1)
+    number = str(datetime.now().microsecond)
     readBoards[number] = {"title":write,"comments":[]}
     with open(boardPath, 'w', encoding='utf-8') as j:
         json.dump(readBoards, j, ensure_ascii=False, indent=4)
@@ -40,16 +41,18 @@ def board():
 #본문
 with open(boardPath, 'r', encoding='utf-8') as j:
     readBoards = json.load(j)
+n = 0
 for i in list(readBoards.keys()):
     with st.expander(label=readBoards[i]["title"]):
         for j in range(0,len(readBoards[i]['comments'])):
             st.write(readBoards[i]['comments'][j])
         comments = st.text_input(label=f"{i}댓글",value=None,label_visibility="collapsed")
         empty,commB,delB = st.columns([6,1,1],vertical_alignment="top")
-        if commB.button(label=f"{i}댓글"):
+        if commB.button(label=f"{n}댓글"):
             commentW(i,comments)
-        if delB.button(label=f"{i}삭제"):
+        if delB.button(label=f"{n}삭제"):
             boardD(i)
+    n = n+1
 rerunB,empty,boardB = st.columns([3,3,1],vertical_alignment="top")
 if boardB.button(label="글쓰기"):
     board()
