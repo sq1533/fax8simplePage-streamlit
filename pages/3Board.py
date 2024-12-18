@@ -49,8 +49,13 @@ for i in list(readBoards.keys()):
             st.write(readBoards[i]['comments'][j])
         comments = st.text_input(label=f"{i}댓글",value=None,label_visibility="collapsed")
         empty,inputB,commB,delB = st.columns([5,1,1,1],vertical_alignment="top")
-        inputPicture = st.file_uploader(label=f"{n}",type=['jpg','png','tif'],accept_multiple_files=False,label_visibility="collapsed")
+        inputPicture = st.file_uploader(label=f"{n}",type=['jpg','png','tif'],accept_multiple_files=False,label_visibility="collapsed")        
         file_path = os.path.join(picturePath,f"{i}.png")
+        if inputPicture == None:
+            pass
+        else:
+            with open(file_path, "wb") as f:
+                f.write(inputPicture.getbuffer())
         if os.path.exists(file_path):
             st.image(image=file_path,caption=None,width=600,clamp=False,channels="RGB",output_format="auto",use_container_width=False)
             if st.button(label=f"{n}이미지제거"):
@@ -58,12 +63,6 @@ for i in list(readBoards.keys()):
                 st.rerun()
         else:
             pass
-        if inputPicture == None:
-            pass
-        else:
-            with open(file_path, "wb") as f:
-                f.write(inputPicture.getbuffer())
-            st.rerun()
         if commB.button(label=f"{n}댓글"):
             commentW(i,comments)
         if delB.button(label=f"{n}삭제"):
