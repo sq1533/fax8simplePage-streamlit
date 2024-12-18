@@ -7,6 +7,7 @@ st.set_page_config(page_title="자유게시판",initial_sidebar_state="expanded"
 st.sidebar.title("자유게시판")
 #게시판 DB 호출
 boardPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","DB","board.json")
+picturePath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","picture")
 #글 생성
 def boardW(write:str):
     with open(boardPath, 'r', encoding='utf-8') as j:
@@ -47,7 +48,19 @@ for i in list(readBoards.keys()):
         for j in range(0,len(readBoards[i]['comments'])):
             st.write(readBoards[i]['comments'][j])
         comments = st.text_input(label=f"{i}댓글",value=None,label_visibility="collapsed")
-        empty,commB,delB = st.columns([6,1,1],vertical_alignment="top")
+        empty,inputB,commB,delB = st.columns([5,1,1,1],vertical_alignment="top")
+        inputPicture = st.file_uploader(label=f"{n}",type=['jpg','png','tif'],accept_multiple_files=False,label_visibility="collapsed")
+        file_path = os.path.join(picturePath,f"{n}.png")
+        if os.path.exists(file_path):
+            st.image(image=file_path,caption=None,width=600,clamp=False,channels="RGB",output_format="auto",use_container_width=False)
+        else:
+            pass
+        if inputPicture == None:
+            pass
+        else:
+            with open(file_path, "wb") as f:
+                f.write(inputPicture.getbuffer())
+            st.rerun()
         if commB.button(label=f"{n}댓글"):
             commentW(i,comments)
         if delB.button(label=f"{n}삭제"):
