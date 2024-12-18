@@ -50,9 +50,12 @@ for i in list(readBoards.keys()):
         comments = st.text_input(label=f"{i}댓글",value=None,label_visibility="collapsed")
         empty,inputB,commB,delB = st.columns([5,1,1,1],vertical_alignment="top")
         inputPicture = st.file_uploader(label=f"{n}",type=['jpg','png','tif'],accept_multiple_files=False,label_visibility="collapsed")
-        file_path = os.path.join(picturePath,f"{n}.png")
+        file_path = os.path.join(picturePath,f"{i}.png")
         if os.path.exists(file_path):
             st.image(image=file_path,caption=None,width=600,clamp=False,channels="RGB",output_format="auto",use_container_width=False)
+            if st.button(label=f"{n}이미지제거"):
+                os.remove(file_path)
+                st.rerun()
         else:
             pass
         if inputPicture == None:
