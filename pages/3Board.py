@@ -57,7 +57,7 @@ for i in list(readBoards.keys()):
             with open(file_path, "wb") as f:
                 f.write(inputPicture.getbuffer())
         if os.path.exists(file_path):
-            st.image(image=file_path,caption=None,width=600,clamp=False,channels="RGB",output_format="auto",use_container_width=False)
+            st.image(image=file_path,caption=None,width=300,clamp=False,channels="RGB",output_format="auto",use_container_width=False)
             if st.button(label=f"{n}이미지제거"):
                 os.remove(file_path)
                 st.rerun()
