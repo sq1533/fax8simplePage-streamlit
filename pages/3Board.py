@@ -27,6 +27,8 @@ def commentW(num:str,comm:str):
     st.rerun()
 #글 삭제
 def boardD(num:str):
+    file_path = os.path.join(picturePath,f"{num}.png")
+    os.remove(file_path)
     with open(boardPath, 'r', encoding='utf-8') as j:
         readBoards = json.load(j)
     del readBoards[num]
