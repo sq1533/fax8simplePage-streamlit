@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Format</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            position: fixed;
+            left: 50%;
+            transform: translate(-50%);
+            width: 800px;
+            margin: 0 auto;
+        }
+        .header{
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 12px;
+        }
+        .title {
+            margin: 50px 0 20px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 30px;
+        }
+        .styled-table {
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-size: 13px;
+        }
+        .styled-table td {
+            border: 1px solid #ddd;
+            width: 150px;
+            height: 20px;
+            padding: 8px;
+            font-weight: bold;
+        }
+        .section {
+            background-color: #cccccc;
+            text-align: center;
+            font-weight: normal;
+            font-size: 10px;
+        }
+        .bottom-table {
+            margin: 20px auto;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .bottom-table td {
+            width: 150px;
+            height: 20px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body class="container">
+    <main>
+        <header class="header">
+            ■ 전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법 시행령 [별지 제8호서식]
+        </header>
+        <h1 class="title">
+            사기이용계좌 · 피해의심거래계좌 정보확인 통지서
+        </h1>
+        <table class="styled-table">
+            <!--선불업자 정산계좌-->
+            <tr>
+                <td class="section" colspan="1" rowspan="2">
+                    피해금<br><span style="font-size: 9px;">(전기통신금융사기피해금액으로추정되는 금액)</span><br>이 이전된 계좌
+                </td>
+                <td class="section" colspan="1" rowspan="1">금융회사</td>
+                <td colspan="2" rowspan="1">-</td>
+                <td class="section" colspan="1" rowspan="1">계좌번호</td>
+                <td colspan="2" rowspan="1">-</td>
+            </tr>
+            <tr>
+                <td class="section" colspan="1" rowspan="1">명의인</td>
+                <td  colspan="1" rowspan="1">-</td>
+                <td class="section" colspan="1" rowspan="1">날짜</td>
+                <td colspan="1" rowspan="1">-</td>
+                <td class="section" colspan="1" rowspan="1">금액</td>
+                <td colspan="1" rowspan="1">-</td>
+            </tr>
+            <tr style="height: 20px;"></tr>
+            <!--입금 모계좌-->
+            <tr>
+                <td class="section" colspan="1" rowspan="2">
+                    피해금<br><span style="font-size: 9px;">(전기통신금융사기피해금액으로추정되는 금액)</span><br>이 입금된 전자금융업자 계좌
+                </td>
+                <td class="section" colspan="1" rowspan="1">금융회사</td>
+                <td colspan="2" rowspan="1">-</td>
+                <td class="section" colspan="1" rowspan="1">계좌번호</td>
+                <td colspan="2" rowspan="1">-</td>
+            </tr>
+            <tr>
+                <td class="section" colspan="1" rowspan="1">명의인</td>
+                <td colspan="1" rowspan="1">-</td>
+                <td class="section" colspan="1" rowspan="1">날짜</td>
+                <td colspan="1" rowspan="1">-</td>
+                <td class="section" colspan="1" rowspan="1">금액</td>
+                <td colspan="1" rowspan="1">-</td>
+            </tr>
+            <tr style="height: 20px;"></tr>
+            <!--정산 모계좌-->
+            <tr>
+                <td class="section" colspan="1" rowspan="2">
+                    피해금<br><span style="font-size: 9px;">(전기통신금융사기피해금액으로추정되는 금액)</span><br>이 출금된 전자금융업자 계좌
+                </td>
+                <td class="section" colspan="1" rowspan="1">금융회사</td>
+                <td  colspan="2" rowspan="1">-</td>
+                <td class="section" colspan="1" rowspan="1">계좌번호</td>
+                <td colspan="2" rowspan="1">-</td>
+            </tr>
+            <tr>
+                <td class="section" colspan="1" rowspan="1">명의인</td>
+                <td colspan="1" rowspan="1">-</td>
+                <td class="section" colspan="1" rowspan="1">날짜</td>
+                <td colspan="1" rowspan="1">-</td>
+                <td class="section" colspan="1" rowspan="1">금액</td>
+                <td colspan="1" rowspan="1">-</td>
+            </tr>
+            <tr style="height: 20px;"></tr>
+            <tr>
+                <td style="border-color: white; font-size: 10px;" colspan="9" rowspan="1">
+                    ※ 피해(추정)금이 재이전되지 않은 경우, 피해(추정)금이 선불충전금 형태로 남아있는 경우, 피해(추정)금이 상품권 구매 등에 바로 사용된 경우 등 특이사항<br>(구체적으로 적습니다)
+                </td>
+            </tr>
+            <tr>
+                <td style="border-color: white; font-size: 14px;" colspan="9" rowspan="1">
+                    7호 '피해(추정)금이 입금된 전자금융업자 계좌' 정보로 확인한 결과 입금내역이 확인되지 않고 있습니다.<br><br>{{account}} 계좌는 당사 지급대행 용도의 예치금 입금 전용 모계좌로 가상계좌번호와 입금정보를 재확인하시어<br>요청 주시기 바랍니다.
+                </td>
+            <tr>
+            </tr>
+                <td style="border-color: white; font-size: 14px;" colspan="9" rowspan="1">
+                    {{otherInfomation}}
+                </td>
+            </tr>
+        </table>
+        <table class="styled-table">
+            <tr>
+                <td class="section" colspan="1" rowspan="1">그 밖의 사항</td>
+                <td class="section" colspan="1" rowspan="1">담당자</td>
+                <td style="text-align: center; font-size: 14px;" colspan="1" rowspan="1">정용민</td>
+                <td class="section" colspan="1" rowspan="1">직위</td>
+                <td style="text-align: center; font-size: 14px;" colspan="1" rowspan="1">책임</td>
+                <td class="section" colspan="1" rowspan="1">연락처</td>
+                <td style="text-align: center; font-size: 14px;" colspan="1" rowspan="1">02-558-0250</td>
+            </tr>
+            <tr>
+                <td style="border-color: white; font-size: 10px;" colspan="9" rowspan="1">
+                    「전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법」 제15조제3항 및 같은 법 시행령 제11조의3제3항에 따라 위와 같은 정보를 확인하여 통지합니다.
+                </td>
+            </tr>
+        </table>
+        <table class="bottom-table">
+            <tr>
+                <td colspan="2" rowspan="2">{{sendBank}}</td>
+                <td colspan="1" rowspan="2">귀하</td>
+                <td colspan="5" rowspan="1"></td>
+                <td style="text-align:center;" colspan="2" rowspan="1">{{today}}</td>
+            </tr>
+            <tr>
+                <td colspan="5" rowspan="1"></td>
+                <td colspan="1" rowspan="1">주식회사 헥토파이낸셜</td>
+                <td colspan="1" rowspan="1">
+                    <img src="C:\Users\USER\ve_1\samplePage\htmlForm\sign.png" alt="" width="60" height="50">
+                </td>
+            </tr>
+        </table>
+    </main>
+</body>
+</html>
