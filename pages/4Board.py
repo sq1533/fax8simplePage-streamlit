@@ -59,7 +59,7 @@ for i in list(readBoards.keys()):
             st.write(readBoards[i]['comments'][j])
         comments = st.text_input(label=f"{i}댓글",value=None,label_visibility="collapsed")
         empty,inputB,commB,delB = st.columns([5,1,1,1],vertical_alignment="top")
-        inputPicture = st.file_uploader(label=f"{n}",type=['jpg','png','tif'],accept_multiple_files=False,label_visibility="collapsed")        
+        inputPicture = st.file_uploader(label=f"{n}",type=['jpg','png','tif'],accept_multiple_files=False,label_visibility="collapsed")
         file_path = os.path.join(picturePath,f"{i}.png")
         if inputPicture == None:
             pass
