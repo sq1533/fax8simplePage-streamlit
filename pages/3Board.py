@@ -28,7 +28,10 @@ def commentW(num:str,comm:str):
 #글 삭제
 def boardD(num:str):
     file_path = os.path.join(picturePath,f"{num}.png")
-    os.remove(file_path)
+    if os.path.exists(file_path):
+        os.remove(file_path)
+    else:
+        pass
     with open(boardPath, 'r', encoding='utf-8') as j:
         readBoards = json.load(j)
     del readBoards[num]
