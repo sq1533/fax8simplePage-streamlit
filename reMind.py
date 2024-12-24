@@ -22,7 +22,7 @@ def reMind() -> None:
             if len(read.index.tolist()) == 1:pass
             else:
                 for i in range(1,len(read.index.tolist())):
-                    sendText = f"입금 은행 : {read["inputBank"][i]}\n발송한 은행 : {read["sendBank"][i]}\n피해금액 : {read["cost"][i]}"
+                    sendText = f"입금 은행 : {read["inputBank"][i]}\n발송한 은행 : {read["sendBank"][i]}\n피해금액 : {read["cost"][i]}\n{read["comments"][i]}"
                     requests.get(f"https://api.telegram.org/bot{bot_info['token']}/sendMessage?chat_id={bot_info['chatId']}&text={sendText}")
                     time.sleep(1)
                 #발송 후 데이터 리셋

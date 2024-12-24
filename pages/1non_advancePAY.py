@@ -1,5 +1,6 @@
 import os
 import json
+import pandas as pd
 from datetime import datetime
 import requests
 from jinja2 import Template
@@ -12,6 +13,7 @@ st.sidebar.title("비선불")
 loginInfoPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","DB","1loginInfo.json")
 acountInfoPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","DB","acountInfo.json")
 sendFaxPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","DB","sendFax.json")
+reMindPath = os.path.join(os.path.dirname(__file__),"DB","reMind.json")
 htmlPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","htmlForm","비선불.html")
 with open(loginInfoPath, 'r', encoding='utf-8') as f:
     teleB = json.load(f)
@@ -104,3 +106,8 @@ if savebtn.button("저장"):
     for i in faxInfo.keys():
         if i in sendbank:
             requests.get(f"https://api.telegram.org/bot{teleBot['token']}/sendMessage?chat_id={teleBot['chatId']}&text={faxInfo[i]}")
+    if str(day2) == datetime.now().strftime("%Y-%m-%d"):
+        read = pd.read_json(reMindPath,orient='records',dtype={"inputBank":str,"sendBank":str,"cost":str,"comments":str})
+        new = pd.DataFrame(data={"inputBank":bank2,"sendBank":sendbank,"cost":str(cost1),"comments":"민원등록"},index=[0])
+        pd.concat([read,new],ignore_index=True).to_json(reMindPath,orient='records',force_ascii=False,indent=4)
+    else:pass
