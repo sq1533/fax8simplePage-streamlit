@@ -13,7 +13,7 @@ st.sidebar.title("비선불")
 loginInfoPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","DB","1loginInfo.json")
 acountInfoPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","DB","acountInfo.json")
 sendFaxPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","DB","sendFax.json")
-reMindPath = os.path.join(os.path.dirname(__file__),"DB","reMind.json")
+reMindPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","DB","reMind.json")
 htmlPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","htmlForm","비선불.html")
 with open(loginInfoPath, 'r', encoding='utf-8') as f:
     teleB = json.load(f)
