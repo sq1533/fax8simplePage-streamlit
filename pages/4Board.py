@@ -57,7 +57,8 @@ for i in list(readBoards.keys()):
     with st.expander(label=readBoards[i]["title"]):
         for j in range(0,len(readBoards[i]['comments'])):
             st.write(readBoards[i]['comments'][j])
-        comments = st.text_input(label=f"{i}댓글",value=None,label_visibility="collapsed")
+        comment = st.text_input(label=f"{i}댓글",value=None,label_visibility="collapsed")
+        comments = f":gray[[{datetime.now().strftime('%m.%d. %H:%M')}]] {comment}"
         empty,inputB,commB,delB = st.columns([5,1,1,1],vertical_alignment="top")
         inputPicture = st.file_uploader(label=f"{n}",type=['jpg','png','tif'],accept_multiple_files=False,label_visibility="collapsed")
         file_path = os.path.join(picturePath,f"{i}.png")
@@ -73,7 +74,7 @@ for i in list(readBoards.keys()):
                 st.rerun()
         else:
             pass
-        if commB.button(label=f"{n}댓글"):
+        if commB.button(label=f"{n}확인"):
             commentW(i,comments)
         if delB.button(label=f"{n}삭제"):
             boardD(i)
