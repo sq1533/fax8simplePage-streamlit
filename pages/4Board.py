@@ -57,7 +57,9 @@ for i in list(readBoards.keys()):
     with st.expander(label=readBoards[i]["title"]):
         for j in range(0,len(readBoards[i]['comments'])):
             st.write(readBoards[i]['comments'][j])
-        comment = st.text_input(label=f"{i}댓글",value=None,label_visibility="collapsed")
+        if f"{i}text" not in st.session_state:
+            st.session_state[f"{i}text"] = ''
+        comment = st.text_input(label=f"{i}댓글",key=f"{i}text",label_visibility="collapsed")
         comments = f":gray[[{datetime.now().strftime('%m.%d. %H:%M')}]] {comment}"
         empty,inputB,commB,delB = st.columns([5,1,1,1],vertical_alignment="top")
         inputPicture = st.file_uploader(label=f"{n}",type=['jpg','png','tif'],accept_multiple_files=False,label_visibility="collapsed")
@@ -74,8 +76,14 @@ for i in list(readBoards.keys()):
                 st.rerun()
         else:
             pass
-        if commB.button(label=f"{n}확인"):
-            commentW(i,comments)
-        if delB.button(label=f"{n}삭제"):
+        btn1 = commB.button(label=f"{n}확인")
+        btn2 = delB.button(label=f"{n}삭제")
+        if btn1 or comment:
+            if comment == '':
+                st.error(body="입력값 없음")
+            else:
+                del st.session_state[f"{i}text"]
+                commentW(i,comments)
+        if btn2:
             boardD(i)
     n = n+1
