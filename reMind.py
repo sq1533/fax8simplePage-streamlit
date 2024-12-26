@@ -4,8 +4,8 @@ import pandas as pd
 import requests
 import time
 from datetime import datetime
-loginPath = os.path.join(os.path.dirname(__file__),"DB","1loginInfo.json")
-restDayPath = os.path.join(os.path.dirname(__file__),"DB","restDay.json")
+loginPath = os.path.join(os.path.dirname(__file__),"..","loginInfo.json")
+restDayPath = os.path.join(os.path.dirname(__file__),"..","restDay.json")
 reMindPath = os.path.join(os.path.dirname(__file__),"DB","reMind.json")
 with open(loginPath, 'r', encoding='utf-8') as f:
     login_info = json.load(f)
