@@ -23,7 +23,7 @@ with open(sendFaxPath,"r",encoding="UTF-8") as j:
     faxInfo = json.load(j)
 with open(htmlPath,"r",encoding="UTF-8") as html:
     html = html.read()
-teleBot = teleB['ezmailbot']
+teleBot = teleB['8faxbot']
 sec_2 = ACOUNT["입금모계좌"]
 #html to image
 def toImage(inputURL,outputIMG):
