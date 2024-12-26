@@ -10,7 +10,7 @@ import streamlit as st
 st.set_page_config(page_title="선불",initial_sidebar_state="expanded")
 st.sidebar.title("선불")
 #DB정보 호출 및 정제
-loginInfoPath = os.path.join(os.path.dirname(__file__),"DB","1loginInfo.json")
+loginInfoPath = os.path.join(os.path.dirname(__file__),"..","loginInfo.json")
 acountInfoPath = os.path.join(os.path.dirname(__file__),"DB","acountInfo.json")
 sendFaxPath = os.path.join(os.path.dirname(__file__),"DB","sendFax.json")
 reMindPath = os.path.join(os.path.dirname(__file__),"DB","reMind.json")
@@ -23,7 +23,7 @@ with open(sendFaxPath,"r",encoding="UTF-8") as j:
     faxInfo = json.load(j)
 with open(htmlPath,"r",encoding="UTF-8") as html:
     html = html.read()    
-teleBot = teleB['ezmailbot']
+teleBot = teleB['8faxbot']
 MID = ACOUNT["가맹점"]
 sec_2 = ACOUNT["입금모계좌"]
 sec_3 = ACOUNT["정산"]
