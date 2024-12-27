@@ -26,7 +26,7 @@ def reMind() -> None:
                     requests.get(f"https://api.telegram.org/bot{bot_info['token']}/sendMessage?chat_id={bot_info['chatId']}&text={sendText}")
                     time.sleep(1)
                 #발송 후 데이터 리셋
-                pd.DataFrame(data={"inputBank":"test","sendBank":"test","cost":"test"},index=[0]).to_json(reMindPath,orient='records',force_ascii=False,indent=4)
+                pd.DataFrame(data={"inputBank":"test","sendBank":"test","cost":"test","comments":"test"},index=[0]).to_json(reMindPath,orient='records',force_ascii=False,indent=4)
                 requests.get(f"https://api.telegram.org/bot{bot_HC['token']}/sendMessage?chat_id={bot_HC['chatId']}&text=리마인드 전송 및 리셋")
                 time.sleep(60)
         else:
