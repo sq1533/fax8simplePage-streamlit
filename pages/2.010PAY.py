@@ -112,7 +112,7 @@ else:
         try:
             number = int(cost1None.replace(",", ""))
             cost1 = f"{number:,}"
-            section_1_costComma.write(cost1,label_visibility="collapsed")
+            section_1_costComma.write(cost1)
         except ValueError:
             section_1_costComma.error("입력값 오류")
     #정산 모계좌 정보
@@ -147,7 +147,7 @@ if cost2None:
     try:
         number = int(cost2None.replace(",", ""))
         cost2 = f"{number:,}"
-        section_2_costComma.write(cost2,label_visibility="collapsed")
+        section_2_costComma.write(cost2)
     except ValueError:
         section_2_costComma.error("입력값 오류")
 section_2_timeIndex.write("입금 시간 : ")
@@ -171,7 +171,7 @@ if returnCostNone:
     try:
         number = int(returnCostNone.replace(",", ""))
         returnCost = f"{number:,}"
-        returnCostComma.write(returnCost,label_visibility="collapsed")
+        returnCostComma.write(returnCost)
     except ValueError:
         returnCostComma.error("입력값 오류")
 inCostIndex.write("선불금 잔액 : ")
@@ -180,7 +180,7 @@ if inCostNone:
     try:
         number = int(inCostNone.replace(",", ""))
         inCost = f"{number:,}"
-        inCostComma.write(inCost,label_visibility="collapsed")
+        inCostComma.write(inCost)
     except ValueError:
         inCostComma.error("입력값 오류")
 otherInfomationIndex.write("기타사항 : ")

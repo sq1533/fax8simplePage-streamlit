@@ -121,7 +121,7 @@ if cost1None:
     try:
         number = int(cost1None.replace(",", ""))
         cost1 = f"{number:,}"
-        section_1_costComma.write(cost1,label_visibility="collapsed")
+        section_1_costComma.write(cost1)
     except ValueError:
         section_1_costComma.error("입력값 오류")
 trNumIndex.write("거래번호 : ")
