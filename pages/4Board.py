@@ -76,14 +76,13 @@ for i in list(readBoards.keys()):
                 st.rerun()
         else:
             pass
-        btn1 = commB.button(label=f"{n}확인")
-        btn2 = delB.button(label=f"{n}삭제")
-        if btn1 or comment:
+        btn = delB.button(label=f"{n}삭제")
+        if comment:
             if comment == '':
                 st.error(body="입력값 없음")
             else:
                 del st.session_state[f"{i}text"]
                 commentW(i,comments)
-        if btn2:
+        if btn:
             boardD(i)
     n = n+1
