@@ -27,7 +27,9 @@ sec_2 = ACOUNT["입금모계좌"]
 sec_3 = ACOUNT["정산"]
 #html to image
 def toImage(inputURL,outputIMG):
-    driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    driver = webdriver.Chrome(options=options)
     driver.set_window_size(850,1200)
     driver.get(f"file://{inputURL}")
     # 스크린샷 저장

@@ -21,7 +21,9 @@ with open(htmlPath,"r",encoding="UTF-8") as html:
 teleBot = teleB['8faxbot']
 #html to image
 def toImage(inputURL,outputIMG):
-    driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    driver = webdriver.Chrome(options=options)
     driver.set_window_size(850,1200)
     driver.get(f"file://{inputURL}")
     # 스크린샷 저장

@@ -27,7 +27,9 @@ teleBot = teleB['8faxbot']
 sec_2 = ACOUNT["입금모계좌"]
 #html to image
 def toImage(inputURL,outputIMG):
-    driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    driver = webdriver.Chrome(options=options)
     driver.set_window_size(850,1200)
     driver.get(f"file://{inputURL}")
     # 스크린샷 저장
