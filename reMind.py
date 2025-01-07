@@ -22,7 +22,7 @@ def reMind() -> None:
     #공휴일 리마인드 발송 제외
     if (today.weekday() == 5) or (today.weekday() == 6) or (today.strftime('%d') in restday[today.strftime('%m')]):
         if today.strftime("%H:%M") == "09:00":
-            read = pd.read_json(restday,orient='records',dtype={"sendDay":str,"inputBank":str,"sendBank":str,"cost":str,"comments":str})
+            read = pd.read_json(reMindPath,orient='records',dtype={"sendDay":str,"inputBank":str,"sendBank":str,"cost":str,"comments":str})
             if len(read.index.tolist()) == 1:
                 pass
             else:
@@ -32,13 +32,13 @@ def reMind() -> None:
                     elif i == today.strftime("%m-%d"):
                         pass
                     else:
-                        ID = read[read["sendDay"].isin(i)].index
-                        sendText = f"발송날짜 : {read["sendDay"][ID]}\n입금 은행 : {read["inputBank"][ID]}\n발송한 은행 : {read["sendBank"][i]}\n피해금액 : {read["cost"][i]}\n{read["comments"][i]}"
+                        ID = read[read["sendDay"].isin([i])].index.tolist()[0]
+                        sendText = f"발송날짜 : {read.loc[ID]["sendDay"]}\n입금 은행 : {read.loc[ID]["inputBank"]}\n발송한 은행 : {read.loc[ID]["sendBank"]}\n피해금액 : {read.loc[ID]["cost"]}\n{read.loc[ID]["comments"]}"
                         requests.get(f"https://api.telegram.org/bot{bot_info['token']}/sendMessage?chat_id={bot_info['chatId']}&text={sendText}")
-                        read.drop(i, inplace=True)
+                        read.drop(ID, inplace=True)
                         time.sleep(1)
                 #발송 후 데이터 리셋
-                pd.DataFrame(read,index=[0]).to_json(reMindPath,orient='records',force_ascii=False,indent=4)
+                read.to_json(reMindPath,orient='records',force_ascii=False,indent=4)
                 requests.get(f"https://api.telegram.org/bot{bot_HC['token']}/sendMessage?chat_id={bot_HC['chatId']}&text=리마인드 전송 및 리셋")
                 time.sleep(60)
         else:
@@ -47,6 +47,7 @@ def reMind() -> None:
     else:
         time.sleep(36000)
         pass
+
 if __name__ == "__main__":
     while True:
         reMind()
