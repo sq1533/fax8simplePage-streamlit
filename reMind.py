@@ -35,9 +35,10 @@ def reMind() -> None:
                         ID = read[read["sendDay"].isin(i)].index
                         sendText = f"발송날짜 : {read["sendDay"][ID]}\n입금 은행 : {read["inputBank"][ID]}\n발송한 은행 : {read["sendBank"][i]}\n피해금액 : {read["cost"][i]}\n{read["comments"][i]}"
                         requests.get(f"https://api.telegram.org/bot{bot_info['token']}/sendMessage?chat_id={bot_info['chatId']}&text={sendText}")
+                        read.drop(i, inplace=True)
                         time.sleep(1)
                 #발송 후 데이터 리셋
-                pd.DataFrame(data={"sendDay":"test","inputBank":"test","sendBank":"test","cost":"test","comments":"test"},index=[0]).to_json(reMindPath,orient='records',force_ascii=False,indent=4)
+                pd.DataFrame(read,index=[0]).to_json(reMindPath,orient='records',force_ascii=False,indent=4)
                 requests.get(f"https://api.telegram.org/bot{bot_HC['token']}/sendMessage?chat_id={bot_HC['chatId']}&text=리마인드 전송 및 리셋")
                 time.sleep(60)
         else:
