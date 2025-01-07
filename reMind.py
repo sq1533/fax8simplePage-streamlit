@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import requests
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 
 #데이터 호출
 loginPath = os.path.join(os.path.dirname(__file__),"..","loginInfo.json")
@@ -19,7 +19,6 @@ bot_HC = pd.Series(login_info['nFaxbot_hc'])
 #리마인드
 def reMind() -> None:
     today = datetime.now()
-    next_day = today + timedelta(days=1)
     #공휴일 리마인드 발송 제외
     if (today.weekday() == 5) or (today.weekday() == 6) or (today.strftime('%d') in restday[today.strftime('%m')]):
         if today.strftime("%H:%M") == "09:00":
@@ -28,7 +27,9 @@ def reMind() -> None:
                 pass
             else:
                 for i in read["sendDay"].tolist():
-                    if i == today.strftime("%m-%d"):
+                    if i == "test":
+                        pass
+                    elif i == today.strftime("%m-%d"):
                         pass
                     else:
                         ID = read[read["sendDay"].isin(i)].index
@@ -36,7 +37,7 @@ def reMind() -> None:
                         requests.get(f"https://api.telegram.org/bot{bot_info['token']}/sendMessage?chat_id={bot_info['chatId']}&text={sendText}")
                         time.sleep(1)
                 #발송 후 데이터 리셋
-                pd.DataFrame(data={"sendDay":next_day.strftime("%m-%d"),"inputBank":"test","sendBank":"test","cost":"test","comments":"test"},index=[0]).to_json(reMindPath,orient='records',force_ascii=False,indent=4)
+                pd.DataFrame(data={"sendDay":"test","inputBank":"test","sendBank":"test","cost":"test","comments":"test"},index=[0]).to_json(reMindPath,orient='records',force_ascii=False,indent=4)
                 requests.get(f"https://api.telegram.org/bot{bot_HC['token']}/sendMessage?chat_id={bot_HC['chatId']}&text=리마인드 전송 및 리셋")
                 time.sleep(60)
         else:
