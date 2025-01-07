@@ -223,4 +223,5 @@ if savebtn.button("저장"):
     for i in faxInfo.keys():
         if i in sendbank:
             requests.get(f"https://api.telegram.org/bot{teleBot['token']}/sendMessage?chat_id={teleBot['chatId']}&text={faxInfo[i]}")
-    else:pass
+    else:
+        pass
