@@ -21,6 +21,9 @@ def reMind() -> None:
     today = datetime.now()
     #공휴일 리마인드 발송 제외
     if (today.weekday() == 5) or (today.weekday() == 6) or (today.strftime('%d') in restday[today.strftime('%m')]):
+        time.sleep(36000)
+        pass
+    else:
         if today.strftime("%H:%M") == "09:00":
             read = pd.read_json(reMindPath,orient='records',dtype={"sendDay":str,"inputBank":str,"sendBank":str,"cost":str,"comments":str})
             if len(read.index.tolist()) == 1:
@@ -44,9 +47,6 @@ def reMind() -> None:
         else:
             time.sleep(30)
             pass
-    else:
-        time.sleep(36000)
-        pass
 
 if __name__ == "__main__":
     while True:
