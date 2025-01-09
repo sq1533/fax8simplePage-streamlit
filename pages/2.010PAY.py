@@ -220,8 +220,11 @@ if savebtn.button("저장"):
     url = f"https://api.telegram.org/bot{teleBot['token']}/sendPhoto"
     with open(imgOutput,"rb") as image_file:
         requests.post(url, data={"chat_id":teleBot['chatId']}, files={"photo": image_file})
-    for i in faxInfo.keys():
-        if i in sendbank:
-            requests.get(f"https://api.telegram.org/bot{teleBot['token']}/sendMessage?chat_id={teleBot['chatId']}&text={faxInfo[i]}")
-    else:
+    if sendbank == None:
         pass
+    else:
+        for i in faxInfo.keys():
+            if i in sendbank:
+                requests.get(f"https://api.telegram.org/bot{teleBot['token']}/sendMessage?chat_id={teleBot['chatId']}&text={faxInfo[i]}")
+            else:
+                pass

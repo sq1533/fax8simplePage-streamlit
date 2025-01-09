@@ -105,11 +105,17 @@ if savebtn.button("저장"):
     url = f"https://api.telegram.org/bot{teleBot['token']}/sendPhoto"
     with open(imgOutput,"rb") as image_file:
         requests.post(url, data={"chat_id":teleBot['chatId']}, files={"photo": image_file})
-    for i in faxInfo.keys():
-        if i in sendbank:
-            requests.get(f"https://api.telegram.org/bot{teleBot['token']}/sendMessage?chat_id={teleBot['chatId']}&text={faxInfo[i]}")
+    if sendbank == None:
+        pass
+    else:
+        for i in faxInfo.keys():
+            if i in sendbank:
+                requests.get(f"https://api.telegram.org/bot{teleBot['token']}/sendMessage?chat_id={teleBot['chatId']}&text={faxInfo[i]}")
+            else:
+                pass
     if str(day2) == datetime.now().strftime("%Y-%m-%d"):
         read = pd.read_json(reMindPath,orient='records',dtype={"inputBank":str,"sendBank":str,"cost":str,"comments":str})
         new = pd.DataFrame(data={"sendDay":datetime.now().strftime("%m-%d"),"inputBank":bank2,"sendBank":sendbank,"cost":str(cost1),"comments":"민원등록"},index=[0])
         pd.concat([read,new],ignore_index=True).to_json(reMindPath,orient='records',force_ascii=False,indent=4)
-    else:pass
+    else:
+        pass
