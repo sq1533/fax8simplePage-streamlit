@@ -57,11 +57,11 @@ def board():
 #본문
 with open(boardPath, 'r', encoding='utf-8') as j:
     readBoards = json.load(j)
-rerunB,empty,boardB = st.columns([3,3,1],vertical_alignment="top")
-if boardB.button(label="글쓰기l"):
-    board()
-if rerunB.button(label="새로고침l"):
+rerunB1,empty,boardB1 = st.columns([3,3,1],vertical_alignment="top")
+if rerunB1.button(label="새로고침l"):
     st.rerun()
+if boardB1.button(label="글쓰기l"):
+    board()
 
 n = 0 #카테고리 no.
 
@@ -96,7 +96,8 @@ for i in list(readBoards.keys()):
             pass
     n = n+1
 
-if boardB.button(label="글쓰기I"):
-    board()
-if rerunB.button(label="새로고침I"):
+rerunB2,empty,boardB2 = st.columns([3,3,1],vertical_alignment="top")
+if rerunB2.button(label="새로고침I"):
     st.rerun()
+if boardB2.button(label="글쓰기I"):
+    board()
