@@ -68,7 +68,7 @@ n = 0 #카테고리 no.
 for i in list(readBoards.keys()):
     with st.expander(label=readBoards[i]["title"]):
         for j in range(0,len(readBoards[i]['comments'])):
-            comment_,comdel = st.columns([4,1],vertical_alignment="top")
+            comment_,comdel = st.columns([4,1],vertical_alignment="center")
             comment_.write(readBoards[i]['comments'][j])
             comdelB = comdel.button(label=f"{j}댓글 삭제")
             if comdelB:
