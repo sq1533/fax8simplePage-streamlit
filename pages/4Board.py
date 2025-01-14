@@ -70,7 +70,7 @@ for i in list(readBoards.keys()):
         for j in range(0,len(readBoards[i]['comments'])):
             comment_,comdel = st.columns([4,1],vertical_alignment="center")
             comment_.write(readBoards[i]['comments'][j])
-            comdelB = comdel.button(label=f"{j}댓글 삭제")
+            comdelB = comdel.button(label=f"삭제{j}{i}")
             if comdelB:
                 commentD(i,j)
             else:
@@ -80,8 +80,8 @@ for i in list(readBoards.keys()):
             st.session_state[f"{i}text"] = ''
         comment = st.text_input(label=f"{i}댓글",key=f"{i}text",label_visibility="collapsed")
         comments = f":gray[[{datetime.now().strftime('%m.%d. %H:%M')}]] {comment}"
-        empty,delB = st.columns([5,1],vertical_alignment="top")
-        btn = delB.button(label=f"{n}글삭제")
+        empty,delB = st.columns([4,1],vertical_alignment="top")
+        btn = delB.button(label=f"게시글 삭제{n}")
         if comment:
             if comment == '':
                 st.error(body="입력값 없음")
