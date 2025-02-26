@@ -7,6 +7,8 @@
     <style>
         body {
             display: flex;
+            width: 100%;
+            height: 100%;
             margin: 0;
             padding: 0;
             justify-content: center;
@@ -30,12 +32,12 @@
             margin: 50px 0 20px 0;
             text-align: center;
             font-weight: bold;
-            font-size: 30px;
+            font-size: 32px;
         }
         .styled-table {
             border-collapse: collapse;
             margin: 20px auto;
-            font-size: 13px;
+            font-size: 15px;
         }
         .styled-table td {
             border: 1px solid #ddd;
@@ -48,12 +50,12 @@
             background-color: #cccccc;
             text-align: center;
             font-weight: normal;
-            font-size: 10px;
+            font-size: 9px;
         }
         .bottom-table {
             margin: 20px auto;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 15px;
         }
         .bottom-table td {
             width: 150px;
@@ -68,13 +70,13 @@
             ■ 전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법 시행령 [별지 제8호서식]
         </header>
         <h1 class="title">
-            사기이용계좌 · 피해의심거래계좌 정보확인 통지서
+            사기이용계좌 · 피해의심거래계좌<br>정보확인 통지서
         </h1>
         <table class="styled-table">
             <!--선불업자 정산계좌-->
             <tr>
                 <td class="section" colspan="1" rowspan="2">
-                    피해금<br><span style="font-size: 9px;">(전기통신금융사기피해금액으로추정되는 금액)</span><br>이 이전된 계좌
+                    피해금<br><span style="font-size: 8px;">(전기통신금융사기피해금액으로추정되는 금액)</span><br>이 이전된 계좌
                 </td>
                 <td class="section" colspan="1" rowspan="1">금융회사</td>
                 <td colspan="2" rowspan="1">{{section_1_bank}}</td>
@@ -83,7 +85,7 @@
             </tr>
             <tr>
                 <td class="section" colspan="1" rowspan="1">명의인</td>
-                <td style="font-size: 11px;" colspan="1" rowspan="1">{{section_1_name}}</td>
+                <td colspan="1" rowspan="1" style="font-size: 12px;">{{section_1_name}}</td>
                 <td class="section" colspan="1" rowspan="1">날짜</td>
                 <td colspan="1" rowspan="1">{{section_1_time}}</td>
                 <td class="section" colspan="1" rowspan="1">금액</td>
@@ -93,7 +95,7 @@
             <!--입금 모계좌-->
             <tr>
                 <td class="section" colspan="1" rowspan="2">
-                    피해금<br><span style="font-size: 9px;">(전기통신금융사기피해금액으로추정되는 금액)</span><br>이 입금된 전자금융업자 계좌
+                    피해금<br><span style="font-size: 8px;">(전기통신금융사기피해금액으로추정되는 금액)</span><br>이 입금된 전자금융업자 계좌
                 </td>
                 <td class="section" colspan="1" rowspan="1">금융회사</td>
                 <td colspan="2" rowspan="1">{{section_2_bank}}</td>
@@ -102,7 +104,7 @@
             </tr>
             <tr>
                 <td class="section" colspan="1" rowspan="1">명의인</td>
-                <td colspan="1" rowspan="1">헥토파이낸셜</td>
+                <td colspan="1" rowspan="1" style="font-size: 12px;">헥토파이낸셜</td>
                 <td class="section" colspan="1" rowspan="1">날짜</td>
                 <td colspan="1" rowspan="1">{{section_2_time}}</td>
                 <td class="section" colspan="1" rowspan="1">금액</td>
@@ -112,7 +114,7 @@
             <!--정산 모계좌-->
             <tr>
                 <td class="section" colspan="1" rowspan="2">
-                    피해금<br><span style="font-size: 9px;">(전기통신금융사기피해금액으로추정되는 금액)</span><br>이 출금된 전자금융업자 계좌
+                    피해금<br><span style="font-size: 8px;">(전기통신금융사기피해금액으로추정되는 금액)</span><br>이 출금된 전자금융업자 계좌
                 </td>
                 <td class="section" colspan="1" rowspan="1">금융회사</td>
                 <td  colspan="2" rowspan="1">{{section_3_bank}}</td>
@@ -121,7 +123,7 @@
             </tr>
             <tr>
                 <td class="section" colspan="1" rowspan="1">명의인</td>
-                <td colspan="1" rowspan="1">헥토파이낸셜</td>
+                <td colspan="1" rowspan="1" style="font-size: 12px;">헥토파이낸셜</td>
                 <td class="section" colspan="1" rowspan="1">날짜</td>
                 <td colspan="1" rowspan="1">{{section_1_time}}</td>
                 <td class="section" colspan="1" rowspan="1">금액</td>
@@ -134,12 +136,12 @@
                 </td>
             </tr>
             <tr>
-                <td style="border-color: white; font-size: 16px;" colspan="9" rowspan="1">
+                <td style="border-color: white; font-size: 18px;" colspan="9" rowspan="1">
                     당사는 PG사로서 가맹점인 선불업자에 대해 지급결제대행 서비스를 제공할 뿐이며,정보확인 및 지급정지 요청은 “피해(추정)금이 재이전된 계좌”란에 기재된 명의인(선불업자) 및 금융회사(선불업자 법인계좌 관리 금융회사)에게 하여야 합니다. 당사와 선불업자간의 거래 정보로 선불업자에 별지7호 재공유 시 선불업자가 거래를 정확히 인지하기 위하여 하기 정보도 같이 전달 부탁드립니다.<br><br>- 거래번호: {{trNum}}<br>- 주문번호: {{orNum}}
                 </td>
             <tr>
             </tr>
-                <td style="border-color: white; font-size: 16px;" colspan="9" rowspan="1">
+                <td style="border-color: white; font-size: 18px;" colspan="9" rowspan="1">
                     {{otherInfomation}}
                 </td>
             </tr>
@@ -169,7 +171,7 @@
             </tr>
             <tr>
                 <td colspan="5" rowspan="1"></td>
-                <td colspan="1" rowspan="1">주식회사 헥토파이낸셜</td>
+                <td colspan="1" rowspan="1">주식회사<br>헥토파이낸셜</td>
                 <td colspan="1" rowspan="1">
                     <img src="C:\Users\USER\ve_1\samplePage\htmlForm\sign.png" alt="" width="60" height="50">
                 </td>
